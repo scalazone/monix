@@ -21,7 +21,9 @@
     {
       "id": "basictransformations",
       "title": "Basic Transformations",
-      "authorId": "piotr-gawrys",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
       "duration": 10
     }
   ]
