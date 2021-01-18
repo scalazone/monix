@@ -1,0 +1,28 @@
+{
+  "name": "Monix Task Foundations",
+  "desc": "Fundamental topics for learning to program using Monix Task",
+  "lessons": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
+      "duration": 10
+    },
+    {
+      "id": "creationandexecution",
+      "title": "Creation And Execution",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
+      "duration": 10
+    },
+    {
+      "id": "basictransformations",
+      "title": "Basic Transformations",
+      "authorId": "piotr-gawrys",
+      "duration": 10
+    }
+  ]
+}

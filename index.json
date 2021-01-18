@@ -1,0 +1,17 @@
+{
+  "name": "Functional Programming using Monix library",
+  "levels": [
+    "beginner"
+  ],
+  "image": "images/scala/scala.svg",
+  "video": "https://www.youtube.com/embed/S8kjLe0zKGg",
+  "desc": "The Monix library course",
+  "language": "English",
+  "scope": [
+    "Introduction to Monix library",
+    "Functional Programming with Task",
+    "Streaming with Observable",
+    "Concurrency"
+  ],
+  "sponsoredBy": "virtuslab"
+}

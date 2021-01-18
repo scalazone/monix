@@ -1,0 +1,27 @@
+name: Deploy content to develop environment
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+      - uses: actions/checkout@v2
+      - name: Test content
+        run: |
+          bash .github/workflows/testContent.sh
+      - name: Update content
+        env:
+          AUTH_PASSWORD: ${{ secrets.DEV_KEYCLOAK_PASSWORD }}
+          AUTH_URL: ${{ secrets.DEV_KEYCLOAK_TOKEN_URL }}
+          API_URL: ${{ secrets.DEV_SZ_API_URL }}
+        run: |
+          bash .github/workflows/deployToScalazone.sh
+

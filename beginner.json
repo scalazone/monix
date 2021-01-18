@@ -1,0 +1,11 @@
+{
+  "name": "Monix for Beginners",
+  "desc": "Monix for Beginners",
+  "ranges": [
+    {
+      "topicId": "monix-task-foundations",
+      "lessonStart": "creationandexecution",
+      "lessonEnd": "basictransformations"
+    }
+  ]
+}
