@@ -4,8 +4,8 @@
   "ranges": [
     {
       "topicId": "monix-task-foundations",
-      "lessonStart": "creationandexecution",
-      "lessonEnd": "basictransformations"
+      "lessonStart": "introduction",
+      "lessonEnd": "errorhandling"
     }
   ]
 }

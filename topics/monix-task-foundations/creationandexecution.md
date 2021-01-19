@@ -1,5 +1,3 @@
-# Creation and Execution
-
 ## Creating Task
 
 `Task[A]` represents a *specification* of a computation that *after executing* will produce either a value of type `A`, fail with an error, or never terminate.

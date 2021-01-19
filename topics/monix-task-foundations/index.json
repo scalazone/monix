@@ -25,6 +25,14 @@
         "piotr-gawrys"
       ],
       "duration": 10
+    },
+    {
+      "id": "errorhandling",
+      "title": "Error Handling",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
+      "duration": 10
     }
   ]
 }

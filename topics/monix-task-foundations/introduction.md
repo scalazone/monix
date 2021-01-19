@@ -1,4 +1,5 @@
-## Introduction
+## Monix
+
 // TODO WRITE INTRODUCTION
 Welcome to the Monix course!
 

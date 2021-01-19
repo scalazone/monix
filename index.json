@@ -1,5 +1,5 @@
 {
-  "name": "Functional Programming using Monix library",
+  "name": "Functional Programming using Monix",
   "levels": [
     "beginner"
   ],
@@ -10,7 +10,6 @@
   "scope": [
     "Introduction to Monix library",
     "Functional Programming with Task",
-    "Streaming with Observable",
     "Concurrency"
   ],
   "sponsoredBy": "virtuslab"

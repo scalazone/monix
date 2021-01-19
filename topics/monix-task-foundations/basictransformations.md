@@ -1,5 +1,3 @@
-# Basic Transformations
-
 ## map
 
 `Task` can be mapped with `map` which will apply a provided function to the result.
