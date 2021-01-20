@@ -3,7 +3,7 @@
   "levels": [
     "beginner"
   ],
-  "image": "images/scala/scala.svg",
+  "image": "courseImages/monix/monix.svg",
   "video": "https://www.youtube.com/embed/S8kjLe0zKGg",
   "desc": "The Monix library course",
   "language": "English",
