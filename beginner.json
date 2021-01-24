@@ -5,7 +5,7 @@
     {
       "topicId": "monix-task-foundations",
       "lessonStart": "introduction",
-      "lessonEnd": "errorhandling"
+      "lessonEnd": "threadmanagement"
     }
   ]
 }

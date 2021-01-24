@@ -33,6 +33,22 @@
         "piotr-gawrys"
       ],
       "duration": 10
+    },
+    {
+      "id": "basicconcurrency",
+      "title": "Basic Concurrency",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
+      "duration": 10
+    },
+    {
+      "id": "threadmanagement",
+      "title": "Thread Management",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
+      "duration": 10
     }
   ]
 }
