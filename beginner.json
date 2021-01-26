@@ -6,6 +6,11 @@
       "topicId": "monix-task-foundations",
       "lessonStart": "introduction",
       "lessonEnd": "resourcesafety"
+    },
+    {
+      "topicId": "monix-task-foundations-app",
+      "lessonStart": "introduction-app",
+      "lessonEnd": "introduction-app"
     }
   ]
 }

@@ -1,5 +1,6 @@
 {
   "topics": [
-    "monix-task-foundations"
+    "monix-task-foundations",
+    "monix-task-foundations-app"
   ]
 }
