@@ -49,6 +49,14 @@
         "piotr-gawrys"
       ],
       "duration": 10
+    },
+    {
+      "id": "resourcesafety",
+      "title": "Resource Safety",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
+      "duration": 10
     }
   ]
 }
