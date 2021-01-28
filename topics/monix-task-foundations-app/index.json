@@ -9,6 +9,30 @@
         "piotr-gawrys"
       ],
       "duration": 10
+    },
+    {
+      "id": "app-level-one",
+      "title": "Implementing Business Logic",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
+      "duration": 10
+    },
+    {
+      "id": "app-level-two",
+      "title": "Running the Application",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
+      "duration": 10
+    },
+    {
+      "id": "app-level-three",
+      "title": "Adding Concurrency",
+      "authorIds": [
+        "piotr-gawrys"
+      ],
+      "duration": 10
     }
   ]
 }
