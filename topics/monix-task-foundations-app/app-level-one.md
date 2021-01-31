@@ -20,6 +20,26 @@ The service exposes two methods:
 - `def getShipStatus(orderId: OrderId): Task[Either[ShipGetStatusError, ShipConstructionStatus]]`
 - `def constructShip(orderRequest: ShipConstructionOrderRequest): Task[Either[ShipConstructionError, OrderId]]`
 
+`constructShip` expects the following model that needs to be validated:
+
+```scala 
+final case class ShipConstructionOrderRequest(
+    shipType: ShipType,
+    crew: Int,
+    guns: Int
+)
+```
+
+For instance, we can't allow a Frigate with only one cannon.
+We will be using [rating system of the Royal Navy](https://en.wikipedia.org/wiki/Rating_system_of_the_Royal_Navy), but that part is already implemented.
+
+After validating input, we will have to order guns from the `MarketService` and hire crew from `CrewService`.
+
+The logic of `getShipStatus` goes as follows:
+- Find the order in the `ShipConstructionOrderRepository`
+  If order exists, call `MarketService` and `CrewService` for guns and crew's current status, respectively.
+- Create a status from responses, or an error.
+
 Return types follow a relatively common pattern of returning recoverable errors _as values_.
 The caller knows from the signature the expected errors that they will have to handle or propagate higher in the chain.
 Of course, `Task` can still fail with a `Throwable` error, but this pattern considers them non-recoverable.
@@ -45,15 +65,15 @@ Some ways to achieve it are the following:
 - Use [EitherT](https://typelevel.org/cats/datatypes/eithert.html).
 - Use an effect type with built-in error channel like [Monix BIO](https://bio.monix.io/docs/introduction), or [ZIO](https://zio.dev/).
 
-This is tackled in `constructShip` exercises.
+We will try the first approach in the exercises, but you are free to experiment on your own; tests should pass regardless.
 
 Exercises that are of interest to us have a comment with "EXERCISE LEVEL 1" included, for instance:
 
 ```scala
 /** EXERCISE LEVEL 1
-  *
-  * If any of the orders is not found, map it to the respective error
-  */
+ *
+ * If any of the orders is not found, map it to the respective error
+ */
 ```
 
 Once all exercises are solved, `ConstructShipLevelOneTests` and `GetShipStatusLevelOneTests` should pass:
