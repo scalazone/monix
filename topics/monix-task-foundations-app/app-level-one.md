@@ -17,8 +17,15 @@ In a larger codebase, it might be useful to separate `api` and `domain` models i
 We are going to start with implementing the business logic of [ShipyardServiceImpl](https://github.com/scalazone/monix-exercises/blob/main/monix-task-app/src/main/scala/scalazone/monix/app/domain/ShipyardServiceImpl.scala).
 
 The service exposes two methods:
-- `def getShipStatus(orderId: OrderId): Task[Either[ShipGetStatusError, ShipConstructionStatus]]`
-- `def constructShip(orderRequest: ShipConstructionOrderRequest): Task[Either[ShipConstructionError, OrderId]]`
+- 
+  ```scala
+def getShipStatus(orderId: OrderId): Task[Either[ShipGetStatusError, ShipConstructionStatus]]`
+```
+- 
+```scala
+def constructShip(orderRequest: ShipConstructionOrderRequest): Task[Either[ShipConstructionError, OrderId]]
+```
+
 
 `constructShip` expects the following model that needs to be validated:
 
