@@ -18,7 +18,7 @@ This process is called a _context switch_ and it is considered quite expensive i
 
 All steps of the operation happen in sequence, one after another on the thread it started.
 
-TODO: IMAGE EXAMPLE
+![Synchronous Operation](/api/content/courseImages/monix/sync_operation.svg)
 
 ### Asynchronous Operation
 
@@ -27,7 +27,7 @@ execution on a different one. The asynchronous operation consists of synchronous
 
 The point at what the synchronous step is about to be rescheduled, is called _asynchronous boundary_.
 
-TODO: IMAGE EXAMPLE
+![Asynchronous Operation](/api/content/courseImages/monix/async_operation.svg)
 
 ### Concurrency
 
