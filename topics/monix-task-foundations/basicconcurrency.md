@@ -33,14 +33,17 @@ The point at what the synchronous step is about to be rescheduled, is called _as
 
 Several computations could be interleaved, e.g., two asynchronous computations taking turns to complete their synchronous steps.
 
-TODO: IMAGE EXAMPLE
+![Concurrent operations](/api/content/courseImages/monix/conc_operation.svg)
 
 ### Parallelism
 
 We talk about parallelism when multiple tasks can advance **at the same time**.
 CPUs can typically execute N tasks in parallel where N = number of cores.
 
-TODO: IMAGE EXAMPLE
+![Parallel operations](/api/content/courseImages/monix/par_operation.svg)
+
+Note that asynchronicity, or concurrency do not imply parallelism.
+For instance, we can have concurrency without the possibility of parallelism if we use a single `Thread`.
 
 ## Concurrency in Monix
 

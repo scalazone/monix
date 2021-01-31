@@ -5,12 +5,12 @@
   ],
   "image": "courseImages/monix/monix.svg",
   "video": "https://www.youtube.com/embed/S8kjLe0zKGg",
-  "desc": "The Monix library course\ntest\ntest\n##ha\ntest",
+  "desc": "The Monix library course",
   "language": "English",
   "scope": [
-    "Introduction to Monix library",
-    "Functional Programming with Effects",
-    "Concurrency"
+    "Learn Functional Programming in practice",
+    "Understand Concurrency on the JVM",
+    "Introduce yourself to Monix library"
   ],
   "sponsoredBy": "swissborg"
 }
