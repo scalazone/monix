@@ -1,38 +1,39 @@
 ## Creating Task
 
-`Task[A]` represents a *specification* of a computation that *after executing* will produce either a value of type `A`, fail with an error, or never terminate.
+`Task[A]` represents a *specification* for a computation that *after execution* will produce either a value of type `A`, fail with an error, or never terminate.
 
 We can create a `Task` using one of a variety of methods.
 
 ### Suspending evaluation
 
-For instance, we can use `Task.eval` to evaluate the value of type `A` in `Task` context:
+For instance, we can use `Task.eval` to evaluate the value of type `A` in the `Task` context:
 
 ```scala 
 import monix.eval.Task
 
-val task: Task[String] = Task.eval { println("Effect"); "Hello!" }
+val task: Task[String] = Task.eval {
+   println("Effect")
+   "Hello!"
+}
 ```
 
-Since a `Task` is just a specification of an effect, the actual execution will be suspended.
-Nothing will be printed until the `Task` is executed.
+Since a `Task` is just a specification of an effect, the actual execution will be _suspended_. Nothing will be printed until the `Task` is executed.
 
-### Creating Task from values
+### Creating a `Task` from a value
 
-There are other builders, like `Task.now` that allows creating a `Task` from *already available* value:
+There are other `Task` builders, like `Task.now` that allow the creation of a `Task` from a value that has already been evaluated.
 
 ```scala 
-import monix.eval.Task
-
 val task: Task[String] = Task.now("Hello!")
 ```
 
 Note that if there were any side-effects, there would not be suspended:
 
 ```scala 
-import monix.eval.Task
-
-val task: Task[String] = Task.now { println("Effect"); "Hello!" }
+val task: Task[String] = Task.now {
+   println("Effect")
+   "Hello!"
+}
 // => Effect
 ```
 
@@ -56,7 +57,9 @@ val error = Task.raiseError(DummyException("boom"))
 import monix.eval.Task
 import monix.execution.exceptions.DummyException
 
-val alsoError = Task.eval { throw DummyException("boom")) }
+val alsoError = Task.eval {
+   throw DummyException("boom"))
+}
 ```
 
 In general, it is recommended to use `raiseError`.
@@ -109,10 +112,10 @@ implicit val s = monix.execution.Scheduler.global
 val task = Task(1 + 1).delayExecution(1.second)
 
 val cancelable = task.runAsync {
-  case Right(value) =>
-    println(s"Successful value: $value")
-  case Left(exception) =>
-    System.err.println(s"ERROR: ${exception.getMessage}")
+   case Right(value) =>
+      println(s"Successful value: $value")
+   case Left(exception) =>
+      System.err.println(s"ERROR: ${exception.getMessage}")
 }
 
 // If we change our mind...
@@ -121,7 +124,7 @@ cancelable.cancel()
 
 There is also `runAsyncAndForget` variant that doesn't take the callback.
 
-### runSyncUnsafe
+### `runSyncUnsafe`
 
 `runSyncUnsafe` will block for a result and return an `A` (or throw an exception if there's an error):
 
@@ -129,7 +132,7 @@ There is also `runAsyncAndForget` variant that doesn't take the callback.
 import monix.eval.Task
 import monix.execution.Scheduler.Implicits.global
 
-val task: Task[String] = Task.eval { println("Effect"); "Hello"! }
+val task: Task[String] = Task.eval { println("Effect"); "Hello!" }
 
 val s: String = task.runSyncUnsafe()
 // => Effect
@@ -141,19 +144,22 @@ and we might end up blocking the `Thread` for a long time.
 
 ### Exercises
 
-You can find coding exercises in [the monix-exercises repository](https://github.com/scalazone/monix-exercises/tree/main/monix-task-solutions/src/main/scala/scalazone/monix/lesson1).
-If you are stuck, feel free to ask questions at [Monix gitter channel](https://gitter.im/monix/monix),
-or peek [at the solutions](https://github.com/scalazone/monix-exercises/tree/main/monix-task-solutions/src/main/scala/scalazone/monix/lesson1).
+Coding exercises are in the [monix-exercises repository](https://github.com/scalazone/monix-exercises/tree/main/monix-task-solutions/src/main/scala/scalazone/monix/lesson1), and everyone is free to ask questions at [Monix gitter channel](https://gitter.im/monix/monix),
+or to peek at [the solutions](https://github.com/scalazone/monix-exercises/tree/main/monix-task-solutions/src/main/scala/scalazone/monix/lesson1).
 
-For the warmup, try to solve the following single answer questions.
+As a warmup, try to solve the following single-answer questions.
 
 ?---?
 # How many times "Effect" will be printed?
+
 ```scala 
 import monix.eval.Task
 import monix.execution.Scheduler.Implicits.global
 
-val task: Task[String] = Task.eval { println("Effect"); "Hello"! }
+val task: Task[String] = Task.eval {
+   println("Effect")
+   "Hello!"
+}
 
 task.runAsyncAndForget
 task.runAsyncAndForget
@@ -169,7 +175,10 @@ task.runAsyncAndForget
 import monix.eval.Task
 import monix.execution.Scheduler.Implicits.global
 
-val task: Task[String] = Task.now { println("Effect"); "Hello"! }
+val task: Task[String] = Task.now {
+   println("Effect")
+   "Hello!"
+}
 
 task.runAsyncAndForget
 task.runAsyncAndForget
