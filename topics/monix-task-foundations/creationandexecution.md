@@ -78,7 +78,7 @@ We only have to pass `Scheduler` as an argument when running the `Task`.
 It is then kept in `Task`'s internal context and used in the implementation of some of the operators.
 
 We will learn more about `Scheduler` when we get to concurrency-related topics.
-For now, we will stick to `monix.execution.Scheduler.global` that is a good default.
+For now, we will stick to `monix.execution.Scheduler.global` since it is a good default.
 
 ### `runToFuture`
 
