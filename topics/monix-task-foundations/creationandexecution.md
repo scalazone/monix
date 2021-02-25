@@ -156,7 +156,9 @@ As a warmup, try to solve the following single-answer questions.
 
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val task: Task[Unit] = Task.eval {
    println("Effect")
@@ -174,7 +176,9 @@ task.runAsyncAndForget
 # How many times will `Effect` be printed?
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val task: Task[Unit] = Task.now {
    println("Effect")
@@ -192,7 +196,9 @@ task.runAsyncAndForget
 # What will be the result of executing this code?
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val task: Task[String] = Task.now { throw new RuntimeException("Something went wrong") }
 

@@ -85,7 +85,9 @@ In case of the success, it is equivalent to `task.flatMap(a => finalizer.map(_ =
 In case of the error, the `Task` will fail with the original error, and the second error will be added to it as a suppressed exception.
 
 ```scala
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val task: Task[Unit] = Task
   .raiseError(new RuntimeException("Task error"))

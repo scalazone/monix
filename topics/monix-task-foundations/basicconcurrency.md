@@ -97,8 +97,10 @@ Just as we could transform a `List[Task[A]]` into `Task[List[A]]` in _sequence_,
 
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
 import scala.concurrent.duration._
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val ta = Task { println("Effect1"); 1 }.delayExecution(1.second)
 val tb = Task { println("Effect2"); 2 }.delayExecution(1.second)

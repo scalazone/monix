@@ -11,7 +11,9 @@ Once a failure happens, the computation will be stopped, and the error will be r
 
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val fa = Task(println("A"))
 val fb = Task.raiseError(new RuntimeException("Something went wrong"))
@@ -34,7 +36,9 @@ Fortunately, we can handle the error with methods such as `onErrorHandleWith`:
 
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val fa = Task(println("A"))
 val fb = Task.raiseError(new RuntimeException("Something went wrong"))
@@ -85,7 +89,9 @@ For the warmup, try to solve the following single answer questions.
 
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val fa = Task(println("A"))
 val fb = Task(println("B"))
