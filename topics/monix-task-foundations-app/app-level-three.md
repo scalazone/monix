@@ -17,7 +17,7 @@ trait CrewService {
 Both methods are synchronous, but we can assume that they will block the current thread while waiting for the external service to respond.
 
 As we have learned in the _Thread Management_ lesson, it's dangerous to do it on the main Scheduler with a limited thread pool.
-If we have 4 Threads and four concurrent requests to `CrewService` that takes a long time to respond, we can't run anything else.
+If we have 4 threads and four concurrent requests to `CrewService` that takes a long time to respond, we can't run anything else.
 We should move it to a different thread pool, then.
 
 ## MarketService

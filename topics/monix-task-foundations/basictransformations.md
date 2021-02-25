@@ -13,7 +13,7 @@ Since `Task` is an immutable computation description, all transformations will c
 
 ## flatMap
 
-If we want to apply an *effectful* (returning `Task`) function, we should take a look at `flatMap`:
+If we want to apply an _effectful_ (returning `Task`) function, we should take a look at `flatMap`:
 
 ```scala 
 import monix.eval.Task

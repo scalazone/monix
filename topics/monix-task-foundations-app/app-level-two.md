@@ -37,22 +37,30 @@ Press any key to exit ...
 ```
 
 The server will be available on the port printed (8080 by default), and the endpoints use `/order` path.
-We can test it with `curl` or any REST API client:
+We can test it with `curl` or any REST API client.
+
+POST Request:
 
 ``` 
 curl -X POST -H "Content-Type: application/json" -d "{\"shipType\": \"Frigate\", \"crew\": 180, \"guns\": 26}" http://localhost:8080/orders
 ```
 
+That should yield a response similar to the following:
+
 ``` 
-// => {"id":"cad22496-1624-4de7-8203-21fb811cf60a"}
+{"id":"cad22496-1624-4de7-8203-21fb811cf60a"}
 ```
+
+GET Request:
 
 ``` 
 curl -X GET http://localhost:8080/orders/cad22496-1624-4de7-8203-21fb811cf60a
 ```
 
+Resulting in:
+
 ``` 
-// => {"orderId":"cad22496-1624-4de7-8203-21fb811cf60a","shipType":"Frigate","rate":"SixthRate","crewReady":0,"crewTotal":180,"gunsReady":0,"gunsTotal":26}
+{"orderId":"cad22496-1624-4de7-8203-21fb811cf60a","shipType":"Frigate","rate":"SixthRate","crewReady":0,"crewTotal":180,"gunsReady":0,"gunsTotal":26}
 ```
 
 Experiment with different inputs to see potential errors.
