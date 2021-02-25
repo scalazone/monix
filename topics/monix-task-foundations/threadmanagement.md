@@ -59,6 +59,11 @@ Let's see what happens if we run two of those tasks concurrently:
 
 ```scala 
 Task.parZip2(forever(1), forever(2)).runToFuture
+```
+
+Output:
+
+```
 1
 1
 1
