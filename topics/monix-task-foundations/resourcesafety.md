@@ -85,20 +85,22 @@ In case of the success, it is equivalent to `task.flatMap(a => finalizer.map(_ =
 In case of the error, the `Task` will fail with the original error, and the second error will be added to it as a suppressed exception.
 
 ```scala
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val task: Task[Unit] = Task
-  .raiseError(DummyException("boom"))
+  .raiseError(new RuntimeException("Task error"))
   .guaranteeCase {
-    case ExitCase.Error(e) => Task.raiseError(DummyException("BOOM"))
+    case ExitCase.Error(e) => Task.raiseError(new RuntimeException("Finalizer error"))
     case _                 => Task.unit
   }
   
 task
   .onErrorHandle { err =>
-    // => monix.execution.exceptions.DummyException: boom
+    // => java.lang.RuntimeException: Task error
     println(err)
-    // => List(monix.execution.exceptions.DummyException: BOOM)
+    // => List(java.lang.RuntimeException: Finalizer error)
     println(err.getSuppressed.toList)
     ()
   }
@@ -124,9 +126,9 @@ or peek [at the solutions](https://github.com/scalazone/monix-exercises/blob/mai
 
 ```scala
 Task
-  .raiseError(DummyException("boom"))
+  .raiseError(new RuntimeException("Task error"))
   .guaranteeCase {
-    case ExitCase.Error(e) => Task.raiseError(DummyException("BOOM"))
+    case ExitCase.Error(e) => Task.raiseError(new RuntimeException("Finalizer error"))
     case _                 => Task.unit
   }
 ```

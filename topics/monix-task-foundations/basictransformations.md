@@ -13,7 +13,7 @@ Since `Task` is an immutable computation description, all transformations will c
 
 ## flatMap
 
-If we want to apply an *effectful* (returning `Task`) function, we should take a look at `flatMap`:
+If we want to apply an _effectful_ (returning `Task`) function, we should take a look at `flatMap`:
 
 ```scala 
 import monix.eval.Task
@@ -109,7 +109,9 @@ so each `Task` will be executed after the previous one successfully completes.
 
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val ta = Task { println("Effect1"); 1 }
 val tb = Task { println("Effect2"); 2 }
@@ -131,7 +133,9 @@ All `Task.sequence` semantics hold, meaning the effects are ordered, and the tas
 
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 def task(i: Int) = Task { println("Effect" + i); i }
 

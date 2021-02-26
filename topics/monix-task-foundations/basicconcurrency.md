@@ -43,14 +43,14 @@ CPUs can typically execute N tasks in parallel where N = number of cores.
 ![Parallel operations](/api/content/courseImages/monix/par_operation.svg)
 
 Note that asynchronicity, or concurrency do not imply parallelism.
-For instance, we can have concurrency without the possibility of parallelism if we use a single `Thread`.
+For instance, we can have concurrency without the possibility of parallelism if we use a single thread.
 
 ## Concurrency in Monix
 
 Parallelism is done with dedicated operators, such as `parMap2`, or `parTraverse`.
 Keep in mind, that parallelism with these operators is not guaranteed.
 A more precise definition is that all "parallel" tasks will be started concurrently.
-If there are free Threads and CPU cores - they might execute in parallel.
+If there are free threads and CPU cores - they might execute in parallel.
 We will look into task scheduling in a little more detail in the next lesson.
 
 If any of the concurrent `Task`s fails, the resulting `Task` will fail with the first error,
@@ -97,8 +97,10 @@ Just as we could transform a `List[Task[A]]` into `Task[List[A]]` in _sequence_,
 
 ```scala 
 import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
 import scala.concurrent.duration._
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val ta = Task { println("Effect1"); 1 }.delayExecution(1.second)
 val tb = Task { println("Effect2"); 2 }.delayExecution(1.second)

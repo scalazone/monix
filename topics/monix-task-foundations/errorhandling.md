@@ -11,18 +11,23 @@ Once a failure happens, the computation will be stopped, and the error will be r
 
 ```scala 
 import monix.eval.Task
-import monix.execution.exceptions.DummyException
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val fa = Task(println("A"))
-val fb = Task.raiseError(DummyException("BOOM"))
+val fb = Task.raiseError(new RuntimeException("Something went wrong"))
 val fc = Task(println("C"))
 
 val task = fa.flatMap(_ => fb).flatMap(_ => fc)
 
 task.runSyncUnsafe()
-//=> A
-//=> Exception in thread "main" monix.execution.exceptions.DummyException: BOOM
+```
+
+Task `fa` will print `"A"`, and then the exception will be thrown with the following message:
+
+```
+Exception in thread "main" java.lang.RuntimeException: Something went wrong
 ```
 
 ## Recovering from errors
@@ -31,35 +36,35 @@ Fortunately, we can handle the error with methods such as `onErrorHandleWith`:
 
 ```scala 
 import monix.eval.Task
-import monix.execution.exceptions.DummyException
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val fa = Task(println("A"))
-val fb = Task.raiseError(DummyException("BOOM"))
+val fb = Task.raiseError(new RuntimeException("Something went wrong"))
 val fc = Task(println("C"))
 
 val task = fa
   .flatMap(_ => fb)
-  .onErrorHandleWith(_ => IO(println("B recovered")))
+  .onErrorHandleWith(_ => Task(println("B recovered")))
   .flatMap(_ => fc)
-  .onErrorHandleWith(_ => IO(println("C recovered")))
+  .onErrorHandleWith(_ => Task(println("C recovered")))
 
 task.runSyncUnsafe()
-//=> A
-//=> B recovered
-//=> C
 ```
 
+In this case, we will see `"A"`, followed by `"B recovered"` and `"C"`.
+
 Let's keep in mind that these methods only handle errors up to the position of the handler,
-so if the failure happens right after `onErrorHandleWith` then the `Task` will fail.
+so if the failure happens right after `onErrorHandleWith` then the `Task` will fail with the new exception.
 
 ## Exposing errors
 
 Instead of recovering from error right away, we can also handle it by _exposing_ it with `attempt`
-which returns `Task[Either[A, B]]`, or `materialize` which returns `Task[Try[A]]`
+which returns `Task[Either[A, B]]`, or `materialize` which returns `Task[Try[A]]`.
 
 It is not reflected in the type signature, but `Task` that is returned will be guaranteed to be successful.
-At least, until the very next operation!
+At least, until the very next operation.
 
 ### Side note
 
@@ -84,8 +89,9 @@ For the warmup, try to solve the following single answer questions.
 
 ```scala 
 import monix.eval.Task
-import monix.execution.exceptions.DummyException
-import monix.execution.Scheduler.Implicits.global
+import monix.execution.Scheduler
+
+given s: Scheduler = Scheduler.global
 
 val fa = Task(println("A"))
 val fb = Task(println("B"))
@@ -94,8 +100,8 @@ val fd = Task(println("D"))
 
 val task = fa
   .flatMap(_ => fb)
-  .onErrorHandleWith(_ => IO(println("B recovered")))
-  .flatMap(_ => Task.raiseError(DummyException("BOOM")))
+  .onErrorHandleWith(_ => Task(println("B recovered")))
+  .flatMap(_ => Task.raiseError(new RuntimeException("Something went wrong")))
   .flatMap(_ => fc)
   .flatMap(_ => fd)
 
