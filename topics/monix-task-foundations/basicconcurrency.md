@@ -6,7 +6,7 @@ Let's start with quick definitions.
 
 ### Thread
 
-Threads are a basic unit of CPU utilization. CPU can usually run up to 1 thread per CPU core at the same time.
+Thread is a basic unit of CPU utilization. CPU can usually run up to 1 thread per CPU core at the same time.
 
 JVM's `Thread` is an abstraction over operating system's native threads that is mapped 1:1. 
 Each JVM thread has a corresponding native thread. By default, threads take about 1 MB of memory for their private stacks.
@@ -44,6 +44,7 @@ CPUs can typically execute N tasks in parallel where N = number of cores.
 
 Note that asynchronicity, or concurrency do not imply parallelism.
 For instance, we can have concurrency without the possibility of parallelism if we use a single thread.
+On the other hand, any parallel operation is concurrent.
 
 ## Concurrency in Monix
 

@@ -20,8 +20,7 @@ Many other well-developed libraries work in a similar space to Monix. For exampl
 - `Observable` serves a similar purpose to [Akka Streams](https://doc.akka.io/docs/akka/current/stream/index.html), [fs2.Stream](https://fs2.io/#/) and [ZIO Stream](https://zio.dev/docs/datatypes/datatypes_stream).
 
 What makes Monix unique is that despite a _preference_ for purely-functional programming, this preference is not _enforced_. And it supports impure libraries, such as Akka, or anything Future-based, as well as those from the FP ecosystem.
-
-The `monix-execution` module offers many utilities that can be used with `Future`, or a [Local's integration with Akka HTTP](https://monix.io/docs/current/execution/local.html#example-repository) are good examples.
+A good example is the `monix-execution` module which offers many utilities that can be used with `Future`, such as [Local integration with Akka HTTP](https://monix.io/docs/current/execution/local.html#example-repository).
 
 Furthermore, even if not using Monix, this course contains a wealth of transferrable knowledge that can apply to other libraries, too.
 

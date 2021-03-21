@@ -3,6 +3,7 @@
 `Task[A]` represents a _specification_ for a computation that _after execution_ will produce either a value of type `A`, fail with an error, or potentially never terminate.
 In this context, a _computation_ represents any actions that we want to conduct as a part of our program. 
 The actions can be anything from returning a value to performing the entire business logic of the application.
+The "laziness" of execution is a crucial difference between Monix `Task` and Scala's `Future` which starts running at the time of construction.
 
 We can create a `Task` using one of a variety of methods.
 
@@ -26,12 +27,16 @@ Since a `Task` is just a specification for an effect, the actual execution will 
 There are other `Task` builders, like `Task.now`, that allow the creation of a `Task` from a value that is already evaluated.
 
 ```scala 
+import monix.eval.Task
+
 val task: Task[String] = Task.now("Hello!")
 ```
 
 If there were any side-effects from the evaluation of this value, they would not be suspended:
 
 ```scala 
+import monix.eval.Task
+
 val task: Task[String] = Task.now {
    println("Effect")
    "Hello!"
@@ -72,7 +77,8 @@ Now that we have learned how to create simple tasks, let's see how we could run 
 ### Scheduler
 
 When running a `Task`, we need to provide a [Scheduler](https://monix.io/docs/current/execution/scheduler.html).
-It is equivalent to [ExecutionContext](https://docs.scala-lang.org/overviews/core/futures.html#execution-context) that is used to handle lower levels details of concurrency.
+It is similar to [ExecutionContext](https://docs.scala-lang.org/overviews/core/futures.html#execution-context) that is used by `Future` to handle lower level details of concurrency.
+`Scheduler` adds extra capabilities, such as running with a delay, in specific intervals and cancellation of scheduled tasks.
 
 We only have to pass `Scheduler` as an argument when running the `Task`. 
 It is then kept in `Task`'s internal context and used in the implementation of some of the operators.
@@ -87,7 +93,6 @@ Monix `Task` can start its execution and return the result in the context of `Fu
 
 ```scala 
 import monix.eval.Task
-import monix.execution.CancelableFuture
 import scala.concurrent.duration._
 import monix.execution.Scheduler
 
