@@ -55,7 +55,8 @@ The repository includes all the exercises, their solutions, and unit tests that 
 
 We have two kinds of question on ScalaZONE.
 
-Some of these require us to select just one answer. Let's try this with an easy question now!
+?---?
+# Some of these require us to select just one answer. Let's try this with an easy question now!
 
 Choose the name of the library we are learning.
 
@@ -66,7 +67,7 @@ Choose the name of the library we are learning.
 - [ ] Monster
 - [ ] Monkey
 
-Other questions may have multiple correct answers. These are usually harder since every option must be considered as a potential answer.
+# Other questions may have multiple correct answers. These are usually harder since every option must be considered as a potential answer.
 
 Try this one now: select every programming language containing the letter `a` in its name.
 
