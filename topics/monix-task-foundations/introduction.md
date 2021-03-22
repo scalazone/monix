@@ -71,12 +71,12 @@ Choose the name of the library we are learning.
 
 Try this one now: select every programming language containing the letter `a` in its name.
 
-* [ ] F#
-* [X] Haskell
-* [X] Scala
-* [X] Java
-* [ ] Kotlin
-* [ ] C#
+- [ ] F#
+- [X] Haskell
+- [X] Scala
+- [X] Java
+- [ ] Kotlin
+- [ ] C#
 
 ## Contributions
 
