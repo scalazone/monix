@@ -34,6 +34,18 @@ The first topic introduces Monix Task.
 
 The second topic revolves around a more significant coding exercise that is meant to combine our newly-acquired knowledge to solve a more complete use case that will give us a better idea of how different concepts fit together and can be used in real projects.
 
+## Contributions
+
+All contributions and feedback are very welcome!
+
+The full source of the course is available in the [scalazone/monix](https://github.com/scalazone/monix) repository.
+
+Exercises can be found at [scalazone/monix-exercises](https://github.com/scalazone/monix-exercises).
+
+Sometimes there might be easy issues to pick up by anyone, so don't hesitate to point them out to us.
+
+Any other ideas for improvement are welcome, and we encourage anyone to open an [issue](https://github.com/scalazone/monix/issues) or a [pull request](https://github.com/scalazone/monix/pulls) to make a proposal.
+
 ## Exercises
 
 At the end of each lesson, there are exercises that we can work on to improve our understanding. These come in two forms:
@@ -79,15 +91,3 @@ answer. Try this one now: select every programming language containing the lette
 * [X] Java
 * [ ] Kotlin
 * [ ] C#
-
-## Contributions
-
-All contributions and feedback are very welcome!
-
-The full source of the course is available in the [scalazone/monix](https://github.com/scalazone/monix) repository.
-
-Exercises can be found at [scalazone/monix-exercises](https://github.com/scalazone/monix-exercises).
-
-Sometimes there might be easy issues to pick up by anyone, so don't hesitate to point them out to us.
-
-Any other ideas for improvement are welcome, and we encourage anyone to open an [issue](https://github.com/scalazone/monix/issues) or a [pull request](https://github.com/scalazone/monix/pulls) to make a proposal.
