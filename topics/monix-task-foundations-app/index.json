@@ -16,7 +16,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 120
     },
     {
       "id": "app-level-two",
@@ -24,7 +24,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 60
     },
     {
       "id": "app-level-three",
@@ -32,7 +32,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 40
     }
   ]
 }

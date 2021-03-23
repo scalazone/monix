@@ -16,7 +16,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 20
     },
     {
       "id": "basictransformations",
@@ -24,7 +24,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 20
     },
     {
       "id": "errorhandling",
@@ -32,7 +32,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 20
     },
     {
       "id": "basicconcurrency",
@@ -40,7 +40,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 30
     },
     {
       "id": "threadmanagement",
@@ -48,7 +48,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 30
     },
     {
       "id": "resourcesafety",
@@ -56,7 +56,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 20
     }
   ]
 }
