@@ -8,7 +8,8 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 10
+      "duration": 10,
+      "video": "https://www.youtube.com/embed/t3mLyEt5c8A"
     },
     {
       "id": "creationandexecution",
@@ -16,7 +17,8 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 20
+      "duration": 20,
+      "video": "https://www.youtube.com/embed/B_7B7Hb1MpM"
     },
     {
       "id": "basictransformations",
@@ -56,6 +58,7 @@
       "authorIds": [
         "piotr-gawrys"
       ],
+      "video": "https://www.youtube.com/embed/FC16ZpqhWaY",
       "duration": 20
     }
   ]
