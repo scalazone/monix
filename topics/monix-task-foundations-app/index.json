@@ -9,7 +9,8 @@
         "piotr-gawrys"
       ],
       "video": "https://www.youtube.com/embed/Kn0JQ7HMI3I",
-      "duration": 10
+      "duration": 10,
+      "desc": "We are going to go through writing a straightforward but fully functioning HTTP Service. In the process, we will learn how to use Monix Task with some of the most popular Scala libraries and safely interoperate with impure code."
     },
     {
       "id": "app-level-one",
@@ -17,7 +18,8 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 120
+      "duration": 120,
+      "desc": "We will implement the business logic of Monix Task Foundations App and familiarize ourselves with the structure of the service."
     },
     {
       "id": "app-level-two",
@@ -25,7 +27,8 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 60
+      "duration": 60,
+      "desc": "We will continue writing Monix Task Foundations App and write enough to be able to run the application."
     },
     {
       "id": "app-level-three",
@@ -33,7 +36,8 @@
       "authorIds": [
         "piotr-gawrys"
       ],
-      "duration": 40
+      "duration": 40,
+      "desc": "We are going to come back to the business logic of Monix Task Foundations App and improve it with concurrent operators."
     }
   ]
 }
