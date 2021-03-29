@@ -10,7 +10,7 @@
       ],
       "duration": 10,
       "video": "https://www.youtube.com/embed/t3mLyEt5c8A",
-      "desc": "Introduction to Monix course which is intended for Functional Programming beginners who have had little or no exposure to effect types like Monix Task. During the beginner level of the course, we will start from nothing and learn how to use a Task and how it can be used in real-life applications."
+      "description": "Introduction to Monix course which is intended for Functional Programming beginners who have had little or no exposure to effect types like Monix Task. During the beginner level of the course, we will start from nothing and learn how to use a Task and how it can be used in real-life applications."
     },
     {
       "id": "creationandexecution",
@@ -20,7 +20,7 @@
       ],
       "duration": 20,
       "video": "https://www.youtube.com/embed/B_7B7Hb1MpM",
-      "desc": "Task[A] represents a specification for a computation that after execution will produce either a value of type A, fail with an error, or potentially never terminate. In this lesson, we will learn how to create and execute Task."
+      "description": "Task[A] represents a specification for a computation that after execution will produce either a value of type A, fail with an error, or potentially never terminate. In this lesson, we will learn how to create and execute Task."
     },
     {
       "id": "basictransformations",
@@ -40,7 +40,7 @@
       ],
       "duration": 20,
       "video": "https://www.youtube.com/embed/x_NTAloSBh8",
-      "desc": "Task can fail with an error for a variety of reasons. In this lesson, we will learn how to recover from errors."
+      "description": "Task can fail with an error for a variety of reasons. In this lesson, we will learn how to recover from errors."
     },
     {
       "id": "basicconcurrency",
@@ -50,7 +50,7 @@
       ],
       "duration": 30,
       "video": "https://www.youtube.com/embed/5PInsnw0puI",
-      "desc": "One of the main appeals of Monix Task is rich support for asynchronous operations. We will learn about concurrency and how it relates to Monix."
+      "description": "One of the main appeals of Monix Task is rich support for asynchronous operations. We will learn about concurrency and how it relates to Monix."
     },
     {
       "id": "threadmanagement",
@@ -60,7 +60,7 @@
       ],
       "duration": 30,
       "video": "https://www.youtube.com/embed/BnGXLe6Rybk",
-      "desc": "In this lesson, we will learn more about lower level details of concurrency mechanisms that power Monix Task. The lesson covers thread pools and how tasks are scheduled to execute."
+      "description": "In this lesson, we will learn more about lower level details of concurrency mechanisms that power Monix Task. The lesson covers thread pools and how tasks are scheduled to execute."
     },
     {
       "id": "resourcesafety",
@@ -70,7 +70,7 @@
       ],
       "video": "https://www.youtube.com/embed/FC16ZpqhWaY",
       "duration": 20,
-      "desc": "Many tasks use some resources, such as a connection pool, a filehandle, or a socket. The lesson explains how to write resource-safe code with Task and what are its advantages over the standard library."
+      "description": "Many tasks use some resources, such as a connection pool, a filehandle, or a socket. The lesson explains how to write resource-safe code with Task and what are its advantages over the standard library."
     }
   ]
 }
