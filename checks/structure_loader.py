@@ -40,6 +40,7 @@ def load_level(course_id: str, level_id: str):
   except KeyError as e:
     assert False, f'Level {level} file for course {course_id} is malformed, cause: {repr(e)}'
 
+
 def load_topics(courses: [Course]):
   return dict([load_topics_for_course(course.id) for course in courses])
 
@@ -68,8 +69,15 @@ def load_topic(course_id: str, topic_id: str):
                       [LessonPrereq(prereq['lessonId'], prereq['topicId']) for prereq in
                        empty_if_none(lesson.get('prerequisites'))])
                for lesson in topic['lessons']]
+    for lesson in lessons:
+      ensure_lesson_presence(course_id, topic_id, lesson.id)
     return Topic(topic_id, topic['name'], topic['desc'], lessons)
   except FileNotFoundError:
     assert False, f'Topic {topic_id} index not found'
   except KeyError as e:
     assert False, f'Topic {topic_id} index is malformed, cause: {repr(e)}'
+
+
+def ensure_lesson_presence(course_id, topic_id, lesson_id):
+  path = f'{CONTENT_PATH}/topics/{topic_id}/{lesson_id}.md'
+  assert Path(path).is_file(), f'Lesson {course_id}/{topic_id}/{lesson_id} not found!'
