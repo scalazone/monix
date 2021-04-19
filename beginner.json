@@ -1,6 +1,6 @@
 {
   "name": "Monix for Beginners",
-  "desc": "Monix for Beginners",
+  "description": "Monix for Beginners",
   "ranges": [
     {
       "topicId": "monix-task-foundations",

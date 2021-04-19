@@ -16,8 +16,8 @@ def load_course(course_id: str):
     path = f'{CONTENT_PATH}/index.json'
     course_json = Path(path).read_text()
     course = json.loads(course_json)
-    return Course(course_id, course['name'], course['levels'], course['image'],
-                  course['video'], course['desc'], course['language'], course['scope'])
+    return Course(course_id, course['name'], course['courseLevelTypes'], course['image'],
+                  course['video'], course['description'], course['language'], course['scope'])
   except FileNotFoundError:
     assert False, f'Index file not found for course {course_id}'
   except KeyError as e:
@@ -25,7 +25,7 @@ def load_course(course_id: str):
 
 
 def load_levels(courses: [Course]):
-  return [load_level(course.id, level) for course in courses for level in course.levels]
+  return [load_level(course.id, level) for course in courses for level in course.course_level_types]
 
 
 def load_level(course_id: str, level_id: str):
@@ -34,7 +34,7 @@ def load_level(course_id: str, level_id: str):
     level_json = Path(path).read_text()
     level = json.loads(level_json)
     ranges = [TopicRange(range['topicId'], range['lessonStart'], range['lessonEnd']) for range in level['ranges']]
-    return Level(level_id, course_id, level['name'], level['desc'], ranges)
+    return Level(level_id, course_id, level['name'], level['description'], ranges)
   except FileNotFoundError:
     assert False, f'Level {level} file not found for course {course_id}'
   except KeyError as e:
@@ -71,7 +71,7 @@ def load_topic(course_id: str, topic_id: str):
                for lesson in topic['lessons']]
     for lesson in lessons:
       ensure_lesson_presence(course_id, topic_id, lesson.id)
-    return Topic(topic_id, topic['name'], topic['desc'], lessons)
+    return Topic(topic_id, topic['name'], topic['description'], lessons)
   except FileNotFoundError:
     assert False, f'Topic {topic_id} index not found'
   except KeyError as e:

@@ -1,11 +1,11 @@
 {
   "name": "Functional Programming using Monix",
-  "levels": [
+  "courseLevelTypes": [
     "beginner"
   ],
   "image": "courseImages/monix/monix.svg",
   "video": "https://www.youtube.com/embed/t3mLyEt5c8A",
-  "desc": "The Monix 3.x library",
+  "description": "The Monix 3.x library",
   "language": "English",
   "scope": [
     "Learn Functional Programming in practice",

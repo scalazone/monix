@@ -3,6 +3,7 @@
 This repository contains the content of the [ScalaZONE website](https://scala.zone). It stores both lesson text and course structure. Everyone is welcome to make PRs with suggestions.
 
 ## Licence	
+
 Content is distributed under the [CreativeCommons Attribution-ShareAlike 4.0](https://creativecommons.org/licenses/by-sa/4.0/legalcode) licence.	
 
 ## Deployment triggers
@@ -36,15 +37,16 @@ the course repository. The [index.json](/index.json) file stores a list with all
 there is a directory named after the course id that contains the course structure. Basic course data is stored in
 the `index.json` file in this directory. Here is the `Course` JSON type structure:
 
-| Field name | Type            | Description                                                                            |
-|------------|-----------------|----------------------------------------------------------------------------------------|
-| `name`     | String          | Name of the course that is visible on the website                                      |
-| `levels`   | List of strings | List of available levels of the course. Levels are described in the next paragraph     |
-| `image`    | String          | Path to the image for the course; it has to refer to an image inside this repository   |
-| `video`    | String          | Video link that is displayed on the course overview page                               |
-| `desc`     | String          | Description of the course                                                              |
-| `scope`    | List of strings | Scope of the course; these are presented in the bullet list on the course overview page|
-| `sponsoredBy`    | String | Id of company sponsoring the course |
+| Field name         | Type             | Description                                                                                                 |
+|--------------------|------------------|-------------------------------------------------------------------------------------------------------------|
+| `name`             | String           | Name of the course that is visible on the website                                                           |
+| `courseLevelTypes` | List of strings  | List of available levels of the course. Levels are described in the next paragraph                          |
+| `image`            | String, Optional | Path to the image for the course; it has to refer to an image by the path mapped to content root repository |
+| `video`            | String, Optional | Video link that is displayed on the course overview page                                                    |
+| `description`      | String           | Description of the course                                                                                   |
+| `language`         | String           | Language in which the course content is written, e.g. English                                               |
+| `scope`            | List of strings  | Scope of the course; these are presented in the bullet list on the course overview page                     |
+| `sponsoredBy`      | String, Optional | Id of company sponsoring the course                                                                         |
 
 ### Course Levels
 
@@ -52,13 +54,14 @@ Course levels are parts of the course that are suited for users starting with di
  - Beginner
  - Intermediate
  - Advanced
-To add a level to a course, it must be present in the `levels` field in the course's index.json file. Level can be configured using `<level>.json` file in the course directory, where `<level>` is either `beginner`, `intermediate` or `advanced`. Here is the `Level` JSON structure:
 
-| Field name | Type                       | Description                                                |
-|------------|----------------------------|------------------------------------------------------------|
-| `name`     | String                     | Name of the course level that is visible on the level page |
-| `desc`     | String                     | Description of the course level                            |
-| `ranges`   | List of TopicRange objects | Defines lessons and topics that are present in the level   |
+To add a level to a course, it must be present in the `courseLevelTypes` field in the course's index.json file. Level can be configured using `<level>.json` file in the course directory, where `<level>` is either `beginner`, `intermediate` or `advanced`. Here is the `Level` JSON structure:
+
+| Field name    | Type                         | Description                                                |
+|---------------|------------------------------|------------------------------------------------------------|
+| `name`        | String                       | Name of the course level that is visible on the level page |
+| `description` | String                       | Description of the course level                            |
+| `ranges`      | List of `TopicRange` objects | Defines lessons and topics that are present in the level   |
 
 And the `TopicRange` type has the following structure in json:
 
@@ -72,37 +75,45 @@ Topic ranges define what topics and lessons are present in a course level. By sp
 
 ### Topics
 
-Topics are ordered collections of lessons. Their index is stored in the [topics/index.json] file. The structure of a single topic is defined in the `index.json` file inside the specific directory named after the topic in the `topics` directory. This `index.json` file has following JSON structure:
+Topics are ordered collections of lessons. Their index is stored in the [topics/index.json](topics/index.json) file. The
+structure of a single topic is defined in the `index.json` file inside the specific directory named after the topic in
+the `topics` directory. This `index.json` file has following JSON structure:
 
-| Field name | Type           | Description                                      |
-|------------|----------------|--------------------------------------------------|
-| `name`     | String         | Name of the topic that is visible on the website |
-| `desc`     | String         | Description of the topic                         |
-| `lessons`  | List of Lesson | Lessons that this topic consists of              |
-
-The `Lesson` JSON type structure:
-
-| Field name      | Type                          | Description                                                  |
-|-----------------|-------------------------------|--------------------------------------------------------------|
-| `id`            | String                        | Id of the lessons                                            |
-| `title`         | String                        | Title of the lesson; the name that is visible on the website |
-| `authorId`      | String                        | Id of the lesson's author                                    |
-| `duration`      | Int                           | Expected duration of lesson completion in minutes            |
-| `prerequisites` | List of LessonPrerequisites   | Ids of lessons that are prerequisites of this lesson         |
-| `video`         | Lesson video                  | URL to embeddable lesson video                               |
-
-The `LessonPrerequisite` JSON type structure:
-
-| Field name | Type   | Description                                  |
-|------------|--------|----------------------------------------------|
-| `lessonId` | String | Id of the lesson to depend upon              |
-| `topicId`  | String | Id of the topic of the lesson to depend upon |
-| `reason `  | String, Optional | Description of the reason of this dependency |
+| Field name    | Type             | Description                                      |
+|---------------|------------------|--------------------------------------------------|
+| `name`        | String           | Name of the topic that is visible on the website |
+| `order`       | Int              | Order number; allows organizing topics           |
+| `description` | String           | Description of the topic                         |
+| `lessons`     | List of `Lesson` | Lessons that this topic consists of              |
 
 ### Lessons
 
-A lesson's content files are present in the topics directory, within a directory specific to the lesson's topic. The content file must be named after the lesson id and have a `.md` file extension. This file defines the text and questions that user sees after entering the lesson page. 
-You can use most of the markdown features inside of it, including tables, images and a special syntax for videos.
+The `Lesson` JSON type structure:
+
+| Field name      | Type                          | Description                                                                                                      |
+|-----------------|-------------------------------|------------------------------------------------------------------------------------------------------------------|
+| `id`            | String                        | Id of the lessons                                                                                                |
+| `title`         | String                        | Title of the lesson; the name that is visible on the website                                                     |
+| `order`         | Int                           | Order number; allows organizing lessons                                                                          |
+| `description`   | String                        | Description of the lesson (about 1-3 sentences); it is visible in the Google search results                      |
+| `authorIds`     | List of strings, Optional     | Ids of the lesson's authors                                                                                      |
+| `video`         | Lesson video, Optional        | URL to an embeddable lesson video                                                                                |
+| `duration`      | Int, Optional                 | Expected duration of lesson completion in minutes                                                                |
+| `prerequisites` | List of `LessonPrerequisites` | Ids of lessons that are prerequisites of this lesson                                                             |
+| `comingSoon`    | Boolean, Optional             | Marks lesson as coming soon; `false` by default; **NOTE: (possibly empty) {id}.md file is required in any case** |
+
+The `LessonPrerequisite` JSON type structure:
+
+| Field name | Type             | Description                                                                                                                     |
+|------------|------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `topicId`  | String, Optional | Id of the topic of the lesson to depend upon; if empty indicates it's same topic as lesson in which this prerequisite is placed |
+| `lessonId` | String           | Id of the lesson to depend upon                                                                                                 |
+| `reason `  | String, Optional | Description of the reason of this dependency                                                                                    |
+
+A lesson's content files are present in the topics directory, within a directory specific to the lesson's topic. The
+content file must be named after the lesson id and have a `.md` file extension. This file defines the text and questions
+that user sees after entering the lesson page. You can use most of the markdown features inside of it, including tables,
+images and a special syntax for videos.
 
 #### Video syntax
 To embed a video inside a lesson you can use the following syntax:
@@ -183,36 +194,3 @@ To add two numbers ...
  * [X] Four
 
 ~~~
-
-### Authors
-
-Courses' authors are defined in the **authors.json** file in the content root repository. This file contains a list
-of `Author` objects. The `Author` JSON object has following structure:
-
-| Field name | Type             | Description                                 |
-|------------|------------------|---------------------------------------------|
-| `id`       | String           | Id of the author                            |
-| `name`     | String           | Name that is presented on the website       |
-| `order`    | Int              | The order of the author in the authors list |
-| `twitter`  | String, Optional | Link to the author's twitter page           |
-| `github`   | String, Optional | Link to the author's github page            |
-| `linkedin`   | String, Optional | Link to the author's linkedin page            |
-| `facebook`   | String, Optional | Link to the author's linkedin page            |
-| `desc`     | String           | Description of the author                   |
-| `company`  ~ String, Optional | Company of the autor                        |
-
-### Companies
-
-Courses' authors are defined in the **companies.json** file in the content root repository. This file contains a list
-of `Company` objects. The `Company` JSON object has following structure:
-
-| Field name | Type             | Description                                 |
-|------------|------------------|---------------------------------------------|
-| `id`       | String           | Id of the company                           |
-| `name`     | String           | Name that is presented on the website       |
-| `twitter`  | String, Optional | Link to the company's twitter page          |
-| `github`   | String, Optional | Link to the company's github page           |
-| `linkedin`   | String, Optional | Link to the company's linkedin page            |
-| `facebook`   | String, Optional | Link to the company's linkedin page            |
-| `desc`     | String           | Description of the company                   |
-

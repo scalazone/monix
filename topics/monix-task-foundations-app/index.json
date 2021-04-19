@@ -1,6 +1,6 @@
 {
   "name": "Monix Task Foundations App",
-  "desc": "Using fundamentals of Monix Task in practice",
+  "description": "Using fundamentals of Monix Task in practice",
   "lessons": [
     {
       "id": "introduction-app",

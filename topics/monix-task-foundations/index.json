@@ -1,6 +1,6 @@
 {
   "name": "Monix Task Foundations",
-  "desc": "Fundamental topics for learning to program using Monix Task",
+  "description": "Fundamental topics for learning to program using Monix Task",
   "lessons": [
     {
       "id": "introduction",
@@ -30,7 +30,7 @@
       ],
       "duration": 20,
       "video": "https://www.youtube.com/embed/uxmsIQJuCSQ",
-      "desc": "This lesson explains how to transform Task and what do we mean by purely functional programming."
+      "description": "This lesson explains how to transform Task and what do we mean by purely functional programming."
     },
     {
       "id": "errorhandling",
