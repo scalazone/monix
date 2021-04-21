@@ -15,8 +15,8 @@ For instance, we can use `Task.eval` to evaluate the value of type `A` in the `T
 import monix.eval.Task
 
 val task: Task[String] = Task.eval {
-   println("Effect")
-   "Hello!"
+  println("Effect")
+  "Hello!"
 }
 ```
 
@@ -38,8 +38,8 @@ If there were any side-effects from the evaluation of this value, they would not
 import monix.eval.Task
 
 val task: Task[String] = Task.now {
-   println("Effect")
-   "Hello!"
+  println("Effect")
+  "Hello!"
 }
 ```
 
@@ -53,7 +53,7 @@ If we'd like to create a `Task` that signals an error, we could use `Task.raiseE
 ```scala 
 import monix.eval.Task
 
-val error = Task.raiseError(new RuntimeException("Something went wrong"))
+val error = Task.raiseError(RuntimeException("Something went wrong"))
 ```
 
 `Task` will also catch any _non-fatal_ errors that are thrown and return them as a failed task.
@@ -64,7 +64,7 @@ considered not recoverable and if they happen, the current task, or entire JVM s
 import monix.eval.Task
 
 val alsoError = Task.eval {
-   throw new RuntimeException("Something went wrong")
+  throw new RuntimeException("Something went wrong")
 }
 ```
 
@@ -93,15 +93,14 @@ Monix `Task` can start its execution and return the result in the context of `Fu
 
 ```scala 
 import monix.eval.Task
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val task = Task(1 + 1).delayExecution(1.second)
 
-val result: Future[Int] =
-  task.runToFuture
+val result: Future[Int] = task.runToFuture
 ```
 
 ### `runAsync`
@@ -109,10 +108,10 @@ val result: Future[Int] =
 If we want to run `Task` on a potentially different thread, but we don't need `Future` then `runAsync` is a more efficient alternative:
 
 ```scala 
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import monix.execution.Scheduler
   
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val task = Task(1 + 1).delayExecution(1.second)
 
@@ -137,7 +136,7 @@ There is also `runAsyncAndForget` variant that doesn't take the callback and doe
 import monix.eval.Task
 import monix.execution.Scheduler
   
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val task: Task[String] = Task.eval { println("Effect"); "Hello!" }
 
@@ -163,10 +162,10 @@ As a warmup, try to solve the following single-answer questions.
 import monix.eval.Task
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val task: Task[Unit] = Task.eval {
-   println("Effect")
+  println("Effect")
 }
 
 task.runAsyncAndForget
@@ -183,10 +182,10 @@ task.runAsyncAndForget
 import monix.eval.Task
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val task: Task[Unit] = Task.now {
-   println("Effect")
+  println("Effect")
 }
 
 task.runAsyncAndForget
@@ -203,9 +202,9 @@ task.runAsyncAndForget
 import monix.eval.Task
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
-val task: Task[String] = Task.now { throw new RuntimeException("Something went wrong") }
+val task: Task[String] = Task.now { throw RuntimeException("Something went wrong") }
 
 task.runAsyncAndForget
 task.runAsyncAndForget

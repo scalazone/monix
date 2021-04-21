@@ -26,15 +26,10 @@ def getShipStatus(orderId: OrderId): Task[Either[ShipGetStatusError, ShipConstru
 def constructShip(orderRequest: ShipConstructionOrderRequest): Task[Either[ShipConstructionError, OrderId]]
 ```
 
-
 `constructShip` expects the following model that needs to be validated:
 
 ```scala 
-final case class ShipConstructionOrderRequest(
-    shipType: ShipType,
-    crew: Int,
-    guns: Int
-)
+case class ShipConstructionOrderRequest(shipType: ShipType, crew: Int, guns: Int)
 ```
 
 For instance, we can't allow a Frigate with only one cannon.
@@ -60,14 +55,13 @@ Some ways to achieve it are the following:
   case class TypedError(msg: String)
   case class BarError() extends Throwable with NoStackTrace
   
-  def foo: Task[Either[TypedError, Unit]] = {
-    val callBar = bar.onErrorHandleWith(ex => Task.raiseError(BarError()))
+  def foo: Task[Either[TypedError, Unit]] =
+    val callBar = bar.onErrorHandleWith { ex => Task.raiseError(BarError()) }
     // (...) other logic
     
     result.onErrorRecoverWith {
       case BarError() => Task.left(TypedError("bar failed"))
     }
-  }
   ```
 - Use [EitherT](https://typelevel.org/cats/datatypes/eithert.html).
 - Use an effect type with built-in error channel like [Monix BIO](https://bio.monix.io/docs/introduction), or [ZIO](https://zio.dev/).

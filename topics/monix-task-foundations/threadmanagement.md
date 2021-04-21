@@ -46,11 +46,10 @@ If we use `SynchronousExecution`, we can look at `flatMap` chains as synchronous
 import monix.execution.Scheduler
 import monix.eval.Task
 
-implicit val s: Scheduler = Scheduler
-  .singleThread("test")
-  .withExecutionModel(ExecutionModel.SynchronousExecution)
+given Scheduler =
+  Scheduler.singleThread("test").withExecutionModel(ExecutionModel.SynchronousExecution)
 
-def forever(i: Int): Task[Unit] = Task(println(i)).flatMap(_ => forever(i))
+def forever(i: Int): Task[Unit] = Task(println(i)).flatMap { _ => forever(i) }
 ```
 
 In this example, we have created a `Scheduler` with only a single thread that uses `SynchronousExecution` model.
@@ -124,7 +123,7 @@ or peek [at the solutions](https://github.com/scalazone/monix-exercises/blob/mai
 import monix.execution.Scheduler
 import monix.eval.Task
 
-implicit val s: Scheduler = Scheduler
+given Scheduler = Scheduler
   .singleThread("test")
   .withExecutionModel(ExecutionModel.SynchronousExecution)
 
@@ -145,7 +144,7 @@ Task.parZip2(taskA, taskB)
 import monix.execution.Scheduler
 import monix.eval.Task
 
-implicit val s: Scheduler = Scheduler
+given Scheduler = Scheduler
   .fixedPool("test", poolSize = 4)
   .withExecutionModel(ExecutionModel.SynchronousExecution)
 
@@ -166,11 +165,11 @@ Task.parZip2(taskA, taskB)
 import monix.execution.Scheduler
 import monix.eval.Task
 
-implicit val s1: Scheduler = Scheduler
+given s1: Scheduler = Scheduler
   .fixedPool("test", poolSize = 2)
   .withExecutionModel(ExecutionModel.AlwaysAsyncExecution)
 
-implicit val s2: Scheduler = Scheduler
+given s2: Scheduler = Scheduler
   .singleThread("test")
   .withExecutionModel(ExecutionModel.SynchronousExecution)
 

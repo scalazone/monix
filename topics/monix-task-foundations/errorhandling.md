@@ -13,10 +13,10 @@ Once a failure happens, the computation will be stopped, and the error will be r
 import monix.eval.Task
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val fa = Task(println("A"))
-val fb = Task.raiseError(new RuntimeException("Something went wrong"))
+val fb = Task.raiseError(RuntimeException("Something went wrong"))
 val fc = Task(println("C"))
 
 val task = fa.flatMap(_ => fb).flatMap(_ => fc)
@@ -38,17 +38,17 @@ Fortunately, we can handle the error with methods such as `onErrorHandleWith`:
 import monix.eval.Task
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val fa = Task(println("A"))
-val fb = Task.raiseError(new RuntimeException("Something went wrong"))
+val fb = Task.raiseError(RuntimeException("Something went wrong"))
 val fc = Task(println("C"))
 
 val task = fa
-  .flatMap(_ => fb)
-  .onErrorHandleWith(_ => Task(println("B recovered")))
-  .flatMap(_ => fc)
-  .onErrorHandleWith(_ => Task(println("C recovered")))
+  .flatMap { _ => fb }
+  .onErrorHandleWith { _ => Task(println("B recovered")) }
+  .flatMap { _ => fc }
+  .onErrorHandleWith { _ => Task(println("C recovered")) }
 
 task.runSyncUnsafe()
 ```
@@ -91,7 +91,7 @@ For the warmup, try to solve the following single answer questions.
 import monix.eval.Task
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val fa = Task(println("A"))
 val fb = Task(println("B"))
@@ -99,11 +99,11 @@ val fc = Task(println("C"))
 val fd = Task(println("D"))
 
 val task = fa
-  .flatMap(_ => fb)
-  .onErrorHandleWith(_ => Task(println("B recovered")))
-  .flatMap(_ => Task.raiseError(new RuntimeException("Something went wrong")))
-  .flatMap(_ => fc)
-  .flatMap(_ => fd)
+  .flatMap { _ => fb }
+  .onErrorHandleWith { _ => Task(println("B recovered")) }
+  .flatMap { _ => Task.raiseError(new RuntimeException("Something went wrong")) }
+  .flatMap { _ => fc }
+  .flatMap { _ => fd }
 
 task.runSyncUnsafe()
 ```
