@@ -10,7 +10,7 @@
       ],
       "duration": 10,
       "video": "https://www.youtube.com/embed/t3mLyEt5c8A",
-      "description": "Introduction to Monix course which is intended for Functional Programming beginners who have had little or no exposure to effect types like Monix Task. During the beginner level of the course, we will start from nothing and learn how to use a Task and how it can be used in real-life applications."
+      "description": "This is the introduction to Monix course, which is intended for Functional Programming beginners who have had little or no exposure to effect types, like Monix Task. In the beginner level of the course we will start from nothing, learn how to use a Task, and see how it can be used in real-life applications."
     },
     {
       "id": "creationandexecution",
@@ -30,7 +30,7 @@
       ],
       "duration": 20,
       "video": "https://www.youtube.com/embed/uxmsIQJuCSQ",
-      "description": "This lesson explains how to transform Task and what do we mean by purely functional programming."
+      "description": "This lesson explains how to transform a Task, and what we mean by pure functional programming."
     },
     {
       "id": "errorhandling",
