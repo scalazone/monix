@@ -69,7 +69,7 @@ val addressTask: Task[String] = ???
 // Potentially executed in parallel
 val aggregate =
   Task.parMap3(locationTask, phoneTask, addressTask) {
-    case (location, phone, address) => "Gotcha!"
+    (location, phone, address) => "Gotcha!"
   }
 ```
 
@@ -85,7 +85,7 @@ This type of blocking is called _asynchronous_, or _semantic_ blocking.
 The following code will take 2 seconds (after execution) even if we have only 1 thread:
 
 ```scala 
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import monix.eval.Task
 
 Task.parZip2(Task.sleep(1.second), Task.sleep(2.second))
@@ -98,24 +98,24 @@ Just as we could transform a `List[Task[A]]` into `Task[List[A]]` in _sequence_,
 
 ```scala 
 import monix.eval.Task
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val ta = Task { println("Effect1"); 1 }.delayExecution(1.second)
 val tb = Task { println("Effect2"); 2 }.delayExecution(1.second)
 val list: Task[Seq[Int]] = Task.parSequence(Seq(ta, tb))
 
-list.runToFuture.foreach(println)
-//=> Effect1
-//=> Effect2
-//=> List(1, 2)
+list.runToFuture.foreach(println(_))
+// => Effect1
+// => Effect2
+// => List(1, 2)
 
-list.runToFuture.foreach(println)
-//=> Effect2
-//=> Effect1
-//=> List(1, 2)
+list.runToFuture.foreach(println(_))
+// => Effect2
+// => Effect1
+// => List(1, 2)
 ```
 
 Depending on scheduling, the tasks might execute differently, but the results are gathered in the original order.

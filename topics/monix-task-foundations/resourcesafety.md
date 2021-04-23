@@ -4,10 +4,10 @@ It's crucial to close them when we finish using them. Otherwise, we end up with 
 Let's consider the following function:
 
 ```scala 
-import java.io._
+import java.io.*
 
 def readFirstLine(file: File): String = {
-  val reader = new BufferedReader(new FileReader(file))
+  val reader = BufferedReader(FileReader(file))
   reader.readLine()
 }
 ```
@@ -17,16 +17,11 @@ The method reads the line from the file, but it never closes the `BufferedReader
 The standard solution to this problem is the `try-with-resources` pattern:
 
 ```scala 
-import java.io._
+import java.io.*
 
-def readFirstLine(file: File): String = {
-  val reader = new BufferedReader(new FileReader(file))
-  try {
-    reader.readLine()
-  } finally {
-    reader.close()
-  }
-}
+def readFirstLine(file: File): String =
+  val reader = BufferedReader(FileReader(file))
+  try reader.readLine() finally reader.close()
 ```
 
 `try-finally` block will make sure that the `reader` will close even if `readLine()` throws an exception.
@@ -45,18 +40,17 @@ Monix Task provides a `bracket` method that is meant for resource handling.
 This how previous examples look like with `bracket`:
 
 ```scala 
-import java.io._
+import java.io.*
 import monix.eval.Task
 
-def readFirstLine(file: File): Task[String] = {
-  val acquire = Task(new BufferedReader(new FileReader(file)))
+def readFirstLine(file: File): Task[String] =
+  val acquire = Task(BufferedReader(FileReader(file)))
   // Usage (the try block)
   val use: BufferedReader => Task[String] = in => Task(in.readLine())
   // Releasing the reader (the finally block)
   val release: BufferedReader => Task[Unit] = in => Task(in.close())
 
   acquire.bracket(use)(release)
-}
 ```
 
 Note how `acquire`, `use`, and `release` all accept `Task`.
@@ -75,8 +69,8 @@ val task: Task[A] = ...
 
 task.guaranteeCase {
   case ExitCase.Completed => Task(println("Successful completion"))
-  case ExitCase.Error(e) => Task(println(s"Encountered an error: $e"))
-  case ExitCase.Canceled => Task(println("Task has been cancelled"))
+  case ExitCase.Error(e)  => Task(println(s"Encountered an error: $e"))
+  case ExitCase.Canceled  => Task(println("Task has been cancelled"))
 }
 ```
 
@@ -87,12 +81,12 @@ In case of the error, the `Task` will fail with the original error, and the seco
 ```scala
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val task: Task[Unit] = Task
-  .raiseError(new RuntimeException("Task error"))
+  .raiseError(RuntimeException("Task error"))
   .guaranteeCase {
-    case ExitCase.Error(e) => Task.raiseError(new RuntimeException("Finalizer error"))
+    case ExitCase.Error(e) => Task.raiseError(RuntimeException("Finalizer error"))
     case _                 => Task.unit
   }
   
@@ -126,9 +120,9 @@ or peek [at the solutions](https://github.com/scalazone/monix-exercises/blob/mai
 
 ```scala
 Task
-  .raiseError(new RuntimeException("Task error"))
+  .raiseError(RuntimeException("Task error"))
   .guaranteeCase {
-    case ExitCase.Error(e) => Task.raiseError(new RuntimeException("Finalizer error"))
+    case ExitCase.Error(e) => Task.raiseError(RuntimeException("Finalizer error"))
     case _                 => Task.unit
   }
 ```

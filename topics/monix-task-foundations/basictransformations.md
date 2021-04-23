@@ -27,10 +27,10 @@ val task60 = task20.flatMap { result20 => task40.map { result40 => result20 + re
 Alternatively, we could use Scala's `for comprehension` for the same result:
 
 ```scala 
-for {
+for
   result20 <- task20
   result40 <- task40
-} yield result20 + result40
+yield result20 + result40
 ```
 
 Tasks will execute in sequence, producing the following output after execution:
@@ -111,7 +111,7 @@ so each `Task` will be executed after the previous one successfully completes.
 import monix.eval.Task
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 val ta = Task { println("Effect1"); 1 }
 val tb = Task { println("Effect2"); 2 }
@@ -120,7 +120,7 @@ val list: Task[Seq[Int]] =
   Task.sequence(Seq(ta, tb))
 
 // We always get this ordering:
-list.runToFuture.foreach(println)
+list.runToFuture.foreach(println(_))
 //=> Effect1
 //=> Effect2
 //=> List(1, 2)
@@ -135,12 +135,12 @@ All `Task.sequence` semantics hold, meaning the effects are ordered, and the tas
 import monix.eval.Task
 import monix.execution.Scheduler
 
-given s: Scheduler = Scheduler.global
+given Scheduler = Scheduler.global
 
 def task(i: Int) = Task { println("Effect" + i); i }
 
 val list: Task[Seq[Int]] =
-  Task.traverse(Seq(1, 2))(i => task(i))
+  Task.traverse(Seq(1, 2)) { i => task(i) }
 
 // We always get this ordering:
 list.runToFuture.foreach(println)

@@ -7,11 +7,9 @@ Let's go back to [ShipyardServiceImpl](https://github.com/scalazone/monix-exerci
 `CrewService` has a suspicious interface for a client to the external service.
 
 ```scala 
-trait CrewService {
+trait CrewService:
   def hireCrew(size: Int): OrderId
-
   def checkCrewStatus(orderId: OrderId): Option[CrewOrderStatus]
-}
 ```
 
 Both methods are synchronous, but we can assume that they will block the current thread while waiting for the external service to respond.
