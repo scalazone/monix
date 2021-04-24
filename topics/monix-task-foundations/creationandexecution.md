@@ -1,15 +1,15 @@
 ## Creating Task
 
-`Task[A]` represents a _specification_ for a computation that _after execution_ will produce either a value of type `A`, fail with an error, or potentially never terminate.
+`Task[A]` represents a _specification_ for a computation that, _after execution_, produces either a value of type `A`, fails with an error, or potentially never terminates.
 In this context, a _computation_ represents any actions that we want to conduct as a part of our program. 
 The actions can be anything from returning a value to performing the entire business logic of the application.
-The "laziness" of execution is a crucial difference between Monix `Task` and Scala's `Future` which starts running at the time of construction.
+The "laziness" of execution is a crucial difference between Monix `Task` and Scala's `Future`, which starts running at the time of construction.
 
 We can create a `Task` using one of a variety of methods.
 
 ### Suspending evaluation
 
-For instance, we can use `Task.eval` to evaluate the value of type `A` in the `Task` context:
+One way to create a `Task` is to use `Task.eval` to evaluate the value of type `A` in the `Task` context:
 
 ```scala 
 import monix.eval.Task
@@ -20,11 +20,11 @@ val task: Task[String] = Task.eval {
 }
 ```
 
-Since a `Task` is just a specification for an effect, the actual execution will be _suspended_, which means that nothing will be printed until the `Task` is executed.
+Since a `Task` is just a specification for an effect, the actual execution is _suspended_, which means that nothing is printed until the `Task` is actually executed.
 
 ### Creating a `Task` from a value
 
-There are other `Task` builders, like `Task.now`, that allow the creation of a `Task` from a value that is already evaluated.
+There are other `Task` builders, like `Task.now`, that lets you create a `Task` from a value that is already evaluated:
 
 ```scala 
 import monix.eval.Task
@@ -32,7 +32,7 @@ import monix.eval.Task
 val task: Task[String] = Task.now("Hello!")
 ```
 
-If there were any side-effects from the evaluation of this value, they would not be suspended:
+If there are any side-effects from the evaluation of this value, they will not be suspended:
 
 ```scala 
 import monix.eval.Task
@@ -44,11 +44,11 @@ val task: Task[String] = Task.now {
 ```
 
 In this case, the string `"Effect"` will be printed immediately when the `Task` is constructed, and never again.
-We need to make sure to only use this method with already evaluated values.
+We need to make sure that we only use this method with values that are already evaluated.
 
 ### Failed Tasks
 
-If we'd like to create a `Task` that signals an error, we could use `Task.raiseError`:
+When we want to create a `Task` that signals an error, we can use `Task.raiseError`:
 
 ```scala 
 import monix.eval.Task
@@ -56,9 +56,9 @@ import monix.eval.Task
 val error = Task.raiseError(RuntimeException("Something went wrong"))
 ```
 
-`Task` will also catch any _non-fatal_ errors that are thrown and return them as a failed task.
+`Task` catches any _non-fatal_ errors that are thrown, and returns them as a failed task.
 Errors, such as `OutOfMemoryError`, `StackOverflowError`, [and others](https://dotty.epfl.ch/api/scala/util/control/NonFatal$.html) are generally
-considered not recoverable and if they happen, the current task, or entire JVM should shut down as quickly as possible.
+considered not recoverable and if they happen, the current task, or entire JVM should shut down as quickly as possible:
 
 ```scala 
 import monix.eval.Task
@@ -68,28 +68,29 @@ val alsoError = Task.eval {
 }
 ```
 
+<!-- TODO: I think this sentence needs something at the very end. -->
 In general, it is recommended to use `raiseError`.
 
 ## Executing Task
 
-Now that we have learned how to create simple tasks, let's see how we could run them to execute a series of instructions!
+Now that we have learned how to create simple tasks, let's see how we can run them to execute a series of instructions!
 
 ### Scheduler
 
 When running a `Task`, we need to provide a [Scheduler](https://monix.io/docs/current/execution/scheduler.html).
-It is similar to [ExecutionContext](https://docs.scala-lang.org/overviews/core/futures.html#execution-context) that is used by `Future` to handle lower level details of concurrency.
-`Scheduler` adds extra capabilities, such as running with a delay, in specific intervals and cancellation of scheduled tasks.
+This process is similar to the [ExecutionContext](https://docs.scala-lang.org/overviews/core/futures.html#execution-context) that is used by `Future` to handle the low-level concurrency details.
+`Scheduler` adds extra capabilities, such as running with a delay, at specific intervals, and cancellation of scheduled tasks.
 
 We only have to pass `Scheduler` as an argument when running the `Task`. 
-It is then kept in `Task`'s internal context and used in the implementation of some of the operators.
+It is then kept in `Task`'s internal context, and used in the implementation of some of the operators.
 
-We will learn more about `Scheduler` when we get to concurrency-related topics.
-For now, we will stick to `monix.execution.Scheduler.global` since it is a good default.
+This was just a brief introduction; we will learn more about `Scheduler` when we get to concurrency-related topics.
+For now, we will stick to `monix.execution.Scheduler.global`, since it is a good default.
 
 ### `runToFuture`
 
-When inter-operating with libraries which use the `Future` type in Scala's standard library, we often need to convert a `Task` into a `Future`.
-Monix `Task` can start its execution and return the result in the context of `Future` with `runToFuture`.
+When inter-operating with libraries that use the `Future` type in Scala's standard library, we often need to convert a `Task` into a `Future`.
+Monix `Task` can start its execution and return the result in the context of `Future` with `runToFuture`:
 
 ```scala 
 import monix.eval.Task
@@ -105,7 +106,7 @@ val result: Future[Int] = task.runToFuture
 
 ### `runAsync`
 
-If we want to run `Task` on a potentially different thread, but we don't need `Future` then `runAsync` is a more efficient alternative:
+If we want to run `Task` on a potentially different thread, but we don't need a `Future` in the end, then `runAsync` is a more efficient alternative:
 
 ```scala 
 import scala.concurrent.duration.*
@@ -123,14 +124,15 @@ task.runAsync {
 }
 ```
 
-`runAsync` takes a callback function of a type `Either[Throwable, A] => Unit` that is executed once `Task` finishes execution.
-The callback is called with `Right(a)` if the `Task` is successful, and `Left(exception)` if the `Task` has failed with an error.
+`runAsync` takes a callback function of type `Either[Throwable, A] => Unit` that is executed once `Task` finishes its execution.
+The callback is called with `Right(value)` if the `Task` succeeds, and `Left(exception)` if the `Task` fails with an error.
 
-There is also `runAsyncAndForget` variant that doesn't take the callback and doesn't provide any way to access the return value.
+<!-- TODO: note that this is only used for side effects? -->
+There is also `runAsyncAndForget` variant that doesn't take the callback, and doesn't provide any way to access the return value.
 
 ### `runSyncUnsafe`
 
-`runSyncUnsafe` will block for a result and return an `A` (or throw an exception if there's an error):
+`runSyncUnsafe` blocks for a result and returns an `A` if it succeeds, or throws an exception if there's an error:
 
 ```scala 
 import monix.eval.Task
@@ -143,10 +145,10 @@ val task: Task[String] = Task.eval { println("Effect"); "Hello!" }
 val s: String = task.runSyncUnsafe()
 ```
 
-We need to be careful with `runSyncUnsafe` since it will block the current thread until the result has been evaluated.
+We need to be careful with `runSyncUnsafe` since it blocks the current thread until the result is evaluated.
 For a short, synchronous `Task` this may not be a problem, but we often deal with long-running, asynchronous tasks
 that wait for responses from a different thread or JVM without doing any useful work themselves.
-It can not only be wasteful but also lead to hanging the entire application. We will look at it closer in the "Thread Management" lesson.
+This can not only be wasteful, but also lead to hanging the entire application. We will look at it closer in the "Thread Management" lesson.
 
 ### Exercises
 

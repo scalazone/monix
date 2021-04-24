@@ -14,13 +14,13 @@
     },
     {
       "id": "creationandexecution",
-      "title": "Task Creation And Execution",
+      "title": "Task Creation and Execution",
       "authorIds": [
         "piotr-gawrys"
       ],
       "duration": 20,
       "video": "https://www.youtube.com/embed/B_7B7Hb1MpM",
-      "description": "Task[A] represents a specification for a computation that after execution will produce either a value of type A, fail with an error, or potentially never terminate. In this lesson, we will learn how to create and execute Task."
+      "description": "Task[A] represents a specification for a computation that, after execution, produces either a value of type A, fails with an error, or potentially never terminates. In this lesson, we will learn how to create and execute Task."
     },
     {
       "id": "basictransformations",
