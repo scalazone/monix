@@ -1,6 +1,6 @@
 ## map
 
-`Task` can be mapped with `map` which will apply a provided function to the result.
+`Task` can be mapped with `map`, which applies a provided function to the result:
 
 ```scala 
 import monix.eval.Task
@@ -9,11 +9,11 @@ val task10 = Task.now(10)
 val task20 = task10.map(_ * 2)
 ```
 
-Since `Task` is an immutable computation description, all transformations will create a *new* `Task`.
+Since `Task` is an immutable computation description, all transformations create a *new* `Task`.
 
 ## flatMap
 
-If we want to apply an _effectful_ (returning `Task`) function, we should take a look at `flatMap`:
+If we want to apply an _effectful_ function -- one that returns `Task` -- we use `flatMap`:
 
 ```scala 
 import monix.eval.Task
@@ -24,7 +24,7 @@ val task40 = Task { println("Calculating 40"); 40 }
 val task60 = task20.flatMap { result20 => task40.map { result40 => result20 + result40 } }
 ```
 
-Alternatively, we could use Scala's `for comprehension` for the same result:
+Alternatively, we could use Scala's `for comprehension` to achieve the same result:
 
 ```scala 
 for
@@ -33,7 +33,7 @@ for
 yield result20 + result40
 ```
 
-Tasks will execute in sequence, producing the following output after execution:
+With either approach, tasks execute in sequence, producing the following output after execution:
 
 ```
 Calculating 20
@@ -42,11 +42,11 @@ Calculating 40
 
 ### Referential Transparency
 
-Now that we know `flatMap`, it's the right moment to mention [referential transparency](https://en.wikipedia.org/wiki/Referential_transparency).
-The property says that an expression can be replaced with its corresponding value without changing the program's behavior.
-When people talk about *purely functional programming*, the pure part means referentially transparent.
+Now that we know `flatMap`, this is the right moment to mention [referential transparency](https://en.wikipedia.org/wiki/Referential_transparency).
+This property says that an expression can be replaced with its corresponding value without changing the program's behavior.
+When people talk about *pure functional programming*, the "pure" part refers to referential transparency.
 
-Adding Integers is referentially transparent:
+Adding integers is a referentially transparent operation:
 
 ```scala 
 val constInt = 5
@@ -57,8 +57,8 @@ constInt + constInt // always return 10
 constInt + 5        // always return 10
 ```
 
-It's an excellent refactoring guarantee - It doesn't matter if we use `val`, `def`, `lazy val`, inline, or extract the code.
-The result will always be the same, so we don't risk breaking the code with substitutions.
+Referential transparency is an excellent refactoring guarantee: it doesn't matter if we use `val`, `def`, `lazy val`, inline, or extract the code.
+The result is always the same, so we don't risk breaking the code with substitutions.
 
 Some functions are not referentially transparent, and thus, not pure:
 
@@ -71,8 +71,9 @@ randomInt + randomInt                   // 2 * randomInt
 Random.nextInt(10) + Random.nextInt(10) // a sum of two random Integers
 ```
 
-In this case, the result could be completely different, depending on how we write it, and we need to be very careful of
-what we're doing, otherwise we could introduce subtle bugs.
+In this example, the result of a random number generator can be completely different every time it's called.
+Therefore, depending on how we use it, we need to be very careful of
+what we're doing, otherwise we can introduce subtle bugs.
 
 Fortunately, effect types like `Task` have the power to turn any non-referentially transparent expression into a pure value!
 
@@ -89,10 +90,9 @@ val reusedTask = Task.map2(randomTask, randomTask)(_ + _)
 val inlinedTask = Task.map2(Task.eval(Random.nextInt(10)), Task.eval(Random.nextInt(10)))(_ + _)
 ```
 
-Once we run `reusedTask` and `inlinedTask` they will both behave the same and generate a random `Integer` twice because
-`randomTask` is just a specification of a program that knows how to generate integers.
+Once we run `reusedTask` and `inlinedTask`, they both behave the same way, and generate a random `Integer` twice because `randomTask` is just a *specification* of a program that knows how to generate integers.
 
-We don't lose any power either, if we'd like to reuse the result, we can `map` it:
+We don't lose any power either; if we want to reuse the result, we can `map` it:
 
 ```scala 
 randomTask.map(randomInt => randomInt + randomInt)
@@ -105,7 +105,7 @@ The behavior is always consistent.
 Other prevalent operators are `sequence` and `traverse`.
 
 `Task.sequence` allows us to transform a `Seq[Task[A]]` into `Task[Seq[A]]` in sequence,
-so each `Task` will be executed after the previous one successfully completes.
+so each `Task` will be executed after the previous one successfully completes:
 
 ```scala 
 import monix.eval.Task
@@ -126,10 +126,10 @@ list.runToFuture.foreach(println(_))
 //=> List(1, 2)
 ```
 
-`Task.traverse` takes a `Seq[A]`, `f: A => Task[B]` and returns a `Task[Seq[B]]`.
-This is similar to `Task.sequence` but it uses `f` to generate each `Task`.
+`Task.traverse` takes a `Seq[A]` and a function of type `f: A => Task[B]`, and returns a `Task[Seq[B]]`.
+This is similar to `Task.sequence`, but it uses `f` to generate each `Task`.
 
-All `Task.sequence` semantics hold, meaning the effects are ordered, and the tasks WILL NOT execute in parallel.
+All `Task.sequence` semantics hold, meaning the effects are ordered, and the tasks WILL NOT execute in parallel:
 
 ```scala 
 import monix.eval.Task

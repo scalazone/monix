@@ -68,7 +68,6 @@ val alsoError = Task.eval {
 }
 ```
 
-<!-- TODO: I think this sentence needs something at the very end. -->
 In general, it is recommended to use `raiseError`.
 
 ## Executing Task
@@ -127,7 +126,6 @@ task.runAsync {
 `runAsync` takes a callback function of type `Either[Throwable, A] => Unit` that is executed once `Task` finishes its execution.
 The callback is called with `Right(value)` if the `Task` succeeds, and `Left(exception)` if the `Task` fails with an error.
 
-<!-- TODO: note that this is only used for side effects? -->
 There is also `runAsyncAndForget` variant that doesn't take the callback, and doesn't provide any way to access the return value.
 
 ### `runSyncUnsafe`
