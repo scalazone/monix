@@ -70,7 +70,7 @@
       ],
       "video": "https://www.youtube.com/embed/FC16ZpqhWaY",
       "duration": 20,
-      "description": "Many tasks use some resources, such as a connection pool, a filehandle, or a socket. The lesson explains how to write resource-safe code with Task and what are its advantages over the standard library."
+      "description": "Many tasks use resources, such as a connection pool, a filehandle, or a socket. This lesson explains how to write resource-safe code with Task, and what its advantages are over the standard library."
     }
   ]
 }

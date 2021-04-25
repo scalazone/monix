@@ -1,15 +1,14 @@
-Many tasks use some resources, such as a connection pool, a filehandle, or a socket.
-It's crucial to close them when we finish using them. Otherwise, we end up with resource leaks.
+Many tasks use resources, such as a connection pool, a filehandle, or a socket.
+It's crucial to close them when we finish using them, or else we will end up with resource leaks.
 
-Let's consider the following function:
+Consider the following function:
 
 ```scala 
 import java.io.*
 
-def readFirstLine(file: File): String = {
+def readFirstLine(file: File): String =
   val reader = BufferedReader(FileReader(file))
   reader.readLine()
-}
 ```
 
 The method reads the line from the file, but it never closes the `BufferedReader`, which has a handle to system resources.
@@ -24,20 +23,20 @@ def readFirstLine(file: File): String =
   try reader.readLine() finally reader.close()
 ```
 
-`try-finally` block will make sure that the `reader` will close even if `readLine()` throws an exception.
+The `try-finally` block makes sure that `reader` is closed, even if `readLine()` throws an exception.
 
 However, there are some issues with this pattern:
-- If there is an exception thrown, and then there is another exception in the finalizer, one is lost.
-- It does not support asynchronous execution.
+- If an exception is thrown, and then there is another exception in the finalizer, one is lost
+- It does not support asynchronous execution
 
-Scala comes with [scala.util.Using](https://www.scala-lang.org/API/current/scala/util/Using$.html) that addresses the first issue, but we need to
-look elsewhere if we use asynchronous data types, like Monix Task.
+Scala comes with [scala.util.Using](https://www.scala-lang.org/API/current/scala/util/Using$.html), which addresses the first issue, but we need to
+look elsewhere if we use asynchronous data types, such as Monix `Task`.
 
 ## bracket
 
-Monix Task provides a `bracket` method that is meant for resource handling.
+Monix `Task` provides a `bracket` method that is meant for resource handling.
 
-This how previous examples look like with `bracket`:
+This what the previous examples look like with `bracket`:
 
 ```scala 
 import java.io.*
@@ -57,12 +56,12 @@ Note how `acquire`, `use`, and `release` all accept `Task`.
 In contrast to a plain `A`, the advantage is that we can benefit from `Task` capabilities, such as referentially transparent code and support for concurrency.
 Be careful in the latter case because you might need to synchronize the access to the resource.
 
-The resource will be released regardless of the result of the `Task`, including cancelation.
-A variant of `bracket` called `bracketCase` allows customizing the finalizer depending on the exit case.
+The resource — `BufferedReader`, in this case — will be released regardless of the result of the `Task`, including cancelation.
+A variant of `bracket` called `bracketCase` allows customizing the finalizer, depending on the exit case.
 
 ## guarantee
 
-If all we need is to execute a given finalizer, we can use `guarantee`, or `guaranteeCase`.
+If all we need is to execute a given finalizer, we can use `guarantee` or `guaranteeCase`:
 
 ```scala 
 val task: Task[A] = ...
@@ -74,9 +73,9 @@ task.guaranteeCase {
 }
 ```
 
-In case of the success, it is equivalent to `task.flatMap(a => finalizer.map(_ => a))`.
+In case of success, this code is equivalent to `task.flatMap(a => finalizer.map(_ => a))`.
 
-In case of the error, the `Task` will fail with the original error, and the second error will be added to it as a suppressed exception.
+In the following example, the `Task` we create will fail with the original error, and then the second error will be added to it as a suppressed exception:
 
 ```scala
 import monix.execution.Scheduler
@@ -89,7 +88,7 @@ val task: Task[Unit] = Task
     case ExitCase.Error(e) => Task.raiseError(RuntimeException("Finalizer error"))
     case _                 => Task.unit
   }
-  
+
 task
   .onErrorHandle { err =>
     // => java.lang.RuntimeException: Task error
