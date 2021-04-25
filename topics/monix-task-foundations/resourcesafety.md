@@ -1,7 +1,7 @@
 Many tasks use resources, such as a connection pool, a filehandle, or a socket.
 It's crucial to close them when we finish using them, or else we will end up with resource leaks.
 
-Consider the following function:
+Consider the following method:
 
 ```scala 
 import java.io.*
@@ -24,7 +24,6 @@ def readFirstLine(file: File): String =
 ```
 
 The `try-finally` block makes sure that `reader` is closed, even if `readLine()` throws an exception.
-
 However, there are some issues with this pattern:
 - If an exception is thrown, and then there is another exception in the finalizer, one is lost
 - It does not support asynchronous execution
@@ -35,7 +34,6 @@ look elsewhere if we use asynchronous data types, such as Monix `Task`.
 ## bracket
 
 Monix `Task` provides a `bracket` method that is meant for resource handling.
-
 This what the previous examples look like with `bracket`:
 
 ```scala 
@@ -56,7 +54,7 @@ Note how `acquire`, `use`, and `release` all accept `Task`.
 In contrast to a plain `A`, the advantage is that we can benefit from `Task` capabilities, such as referentially transparent code and support for concurrency.
 Be careful in the latter case because you might need to synchronize the access to the resource.
 
-The resource — `BufferedReader`, in this case — will be released regardless of the result of the `Task`, including cancelation.
+The resource — `BufferedReader` in this case — will be released regardless of the result of the `Task`, including cancelation.
 A variant of `bracket` called `bracketCase` allows customizing the finalizer, depending on the exit case.
 
 ## guarantee
@@ -75,7 +73,7 @@ task.guaranteeCase {
 
 In case of success, this code is equivalent to `task.flatMap(a => finalizer.map(_ => a))`.
 
-In the following example, the `Task` we create will fail with the original error, and then the second error will be added to it as a suppressed exception:
+As a `guaranteeCase` example that demonstrates error handling, the `Task` we create in this code first fails with the original error, and then the second error is added to it as a suppressed exception:
 
 ```scala
 import monix.execution.Scheduler
