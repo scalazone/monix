@@ -6,7 +6,7 @@ Let's start with quick definitions.
 
 ### Thread
 
-A _thread_ is a basic unit of CPU utilization. A CPU can usually run up to 1 thread per CPU core at the same time.
+A _thread_ is a basic unit of CPU utilization. A CPU can usually run up to one thread per CPU core at the same time.
 
 The Java Virtual Machine (JVM) `Thread` is an abstraction over operating system native threads, and are mapped 1:1;
 each JVM thread has a corresponding native thread.
@@ -25,7 +25,7 @@ In a _synchronous_ operation, all steps of the operation happen in sequence, one
 
 With an _asynchronous_ operation, the operation starts on one thread, but at some point it might be rescheduled and continue
 execution on a different thread.
-The asynchronous operation consists of synchronous steps.
+An asynchronous operation may consist of a series of synchronous steps.
 
 The point at which a synchronous step is about to be rescheduled is called an _asynchronous boundary_.
 
@@ -50,7 +50,7 @@ On the other hand, any parallel operation is concurrent.
 
 ## Concurrency in Monix
 
-Parallelism is implemented with dedicated operators, such as `parMap2`, or `parTraverse`.
+Parallelism is implemented with dedicated operators, such as `parMap2` and `parTraverse`.
 However, keep in mind that parallelism with these operators is not guaranteed.
 A more precise definition is that all "parallel" tasks will be _started concurrently_.
 If there are free threads and CPU cores, they _might_ execute in parallel.
@@ -97,7 +97,7 @@ Task.parZip2(Task.sleep(1.second), Task.sleep(2.second))
 ### parTraverse
 
 Just as we can transform a `List[Task[A]]` into `Task[List[A]]` in _sequence_, we can do the same concurrently with
-`parSequence`, or `parTraverse`:
+`parSequence` or `parTraverse`:
 
 ```scala 
 import monix.eval.Task
