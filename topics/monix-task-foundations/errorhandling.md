@@ -1,5 +1,7 @@
 ## Causes of failure
 
+<!-- TODO: this is a comment test -->
+
 `Task` can fail for the following reasons:
 - It is created with `raiseError`
 - It is created from a failed value of `Try` or `Either`
