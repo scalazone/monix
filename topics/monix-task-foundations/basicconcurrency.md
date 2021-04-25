@@ -1,4 +1,4 @@
-One of the main appeals of Monix `Task` is rich support for asynchronous operations.
+One of the main appeals of Monix `Task` is its rich support for asynchronous operations.
 
 Let's start with quick definitions.
 
@@ -6,60 +6,63 @@ Let's start with quick definitions.
 
 ### Thread
 
-Thread is a basic unit of CPU utilization. CPU can usually run up to 1 thread per CPU core at the same time.
+A _thread_ is a basic unit of CPU utilization. A CPU can usually run up to 1 thread per CPU core at the same time.
 
-JVM's `Thread` is an abstraction over operating system's native threads that is mapped 1:1. 
-Each JVM thread has a corresponding native thread. By default, threads take about 1 MB of memory for their private stacks.
+The Java Virtual Machine (JVM) `Thread` is an abstraction over operating system native threads, and are mapped 1:1;
+each JVM thread has a corresponding native thread.
+By default, threads require about 1 MB of memory for their private stacks.
 
-Threads can store some data in CPU's caches and registers, that needs to be cleared and/or restored when a new thread takes over.
-This process is called a _context switch_ and it is considered quite expensive if high-throughput is a major concern.
+Threads can store some data in CPU caches and registers, and that needs to be cleared when a new thread takes over.
+This process is called a _context switch_, and it is considered quite expensive if high-throughput is a major concern.
 
-### Synchronous Operation
+### Synchronous operation
 
-All steps of the operation happen in sequence, one after another on the thread it started.
+In a _synchronous_ operation, all steps of the operation happen in sequence, one after another, on the thread it started.
 
 ![Synchronous Operation](/api/content/courseImages/monix/sync_operation.svg)
 
-### Asynchronous Operation
+### Asynchronous operation
 
-The operation was started on one thread, but at some point, it might be rescheduled and continue
-execution on a different one. The asynchronous operation consists of synchronous steps. 
+With an _asynchronous_ operation, the operation starts on one thread, but at some point it might be rescheduled and continue
+execution on a different thread.
+The asynchronous operation consists of synchronous steps.
 
-The point at what the synchronous step is about to be rescheduled, is called _asynchronous boundary_.
+The point at which a synchronous step is about to be rescheduled is called an _asynchronous boundary_.
 
 ![Asynchronous Operation](/api/content/courseImages/monix/async_operation.svg)
 
 ### Concurrency
 
-Several computations could be interleaved, e.g., two asynchronous computations taking turns to complete their synchronous steps.
+_Concurrency_ means that several computations can be interleaved, e.g., two asynchronous computations taking turns to complete their synchronous steps.
 
 ![Concurrent operations](/api/content/courseImages/monix/conc_operation.svg)
 
 ### Parallelism
 
-We talk about parallelism when multiple tasks can advance **at the same time**.
-CPUs can typically execute N tasks in parallel where N = number of cores.
+We talk about _parallelism_ when multiple tasks can advance **at the same time**.
+CPUs can typically execute N tasks in parallel, where N = number of cores.
 
 ![Parallel operations](/api/content/courseImages/monix/par_operation.svg)
 
-Note that asynchronicity, or concurrency do not imply parallelism.
+Note that asynchronicity and concurrency do not imply parallelism.
 For instance, we can have concurrency without the possibility of parallelism if we use a single thread.
 On the other hand, any parallel operation is concurrent.
 
 ## Concurrency in Monix
 
-Parallelism is done with dedicated operators, such as `parMap2`, or `parTraverse`.
-Keep in mind, that parallelism with these operators is not guaranteed.
-A more precise definition is that all "parallel" tasks will be started concurrently.
-If there are free threads and CPU cores - they might execute in parallel.
+Parallelism is implemented with dedicated operators, such as `parMap2`, or `parTraverse`.
+However, keep in mind that parallelism with these operators is not guaranteed.
+A more precise definition is that all "parallel" tasks will be _started concurrently_.
+If there are free threads and CPU cores, they _might_ execute in parallel.
 We will look into task scheduling in a little more detail in the next lesson.
 
-If any of the concurrent `Task`s fails, the resulting `Task` will fail with the first error,
-and we will attempt to cancel the rest because we can no longer receive a successful result.
+In regards to handling failures, if any of the concurrent `Task`s fail, the resulting `Task` will fail with the first error, and Monix will attempt to cancel the rest because we can no longer receive a successful result.
+
+
 
 ### parMap
 
-We could use `parMap3` to call three independent services concurrently:
+We can use `parMap3` to call three independent services concurrently:
 
 ```scala 
 val locationTask: Task[String] = ???
@@ -73,16 +76,16 @@ val aggregate =
   }
 ```
 
-Unlike Scala's `Future`, `Task`'s parallelism is explicit.
-If we were to use `map3` instead of `parMap3` then the tasks would be started in sequence, one at a time.
+Unlike Scala's `Future`, `Task`'s parallelism is explicit:
+if we were to use `map3` instead of `parMap3`, the tasks would be started in sequence, one at a time.
 
 ### Task.sleep
 
-We can use `Task.sleep` or `delayExecution` to temporarily stop the `Task` and reschedule it after a specified time.
-Unlike `Thread.sleep`, no `Thread` is blocked and other tasks can freely execute on that `Thread`. 
-This type of blocking is called _asynchronous_, or _semantic_ blocking.
+We can use `Task.sleep` or `delayExecution` to temporarily stop a `Task` and reschedule it after a specified time.
+Unlike `Thread.sleep`, no `Thread` is blocked, and other tasks can freely execute on that `Thread`. 
+This type of blocking is called _asynchronous_ or _semantic_ blocking.
 
-The following code will take 2 seconds (after execution) even if we have only 1 thread:
+For example, the following code will take 2 seconds (after execution) even if we have only 1 thread:
 
 ```scala 
 import scala.concurrent.duration.*
@@ -93,8 +96,8 @@ Task.parZip2(Task.sleep(1.second), Task.sleep(2.second))
 
 ### parTraverse
 
-Just as we could transform a `List[Task[A]]` into `Task[List[A]]` in _sequence_, we can do the same concurrently with
-`parSequence`, or `parTraverse`.
+Just as we can transform a `List[Task[A]]` into `Task[List[A]]` in _sequence_, we can do the same concurrently with
+`parSequence`, or `parTraverse`:
 
 ```scala 
 import monix.eval.Task
@@ -118,7 +121,7 @@ list.runToFuture.foreach(println(_))
 // => List(1, 2)
 ```
 
-Depending on scheduling, the tasks might execute differently, but the results are gathered in the original order.
+Depending on scheduling, the two tasks might execute in different order, but the results are gathered in the original order.
 
 ## Exercises
 

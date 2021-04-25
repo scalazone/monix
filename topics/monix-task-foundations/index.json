@@ -50,7 +50,7 @@
       ],
       "duration": 30,
       "video": "https://www.youtube.com/embed/5PInsnw0puI",
-      "description": "One of the main appeals of Monix Task is rich support for asynchronous operations. We will learn about concurrency and how it relates to Monix."
+      "description": "One of the main appeals of Monix Task is its rich support for asynchronous operations. In this lesson we will learn about concurrency, and how it relates to Monix."
     },
     {
       "id": "threadmanagement",
