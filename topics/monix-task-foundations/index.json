@@ -60,7 +60,7 @@
       ],
       "duration": 30,
       "video": "https://www.youtube.com/embed/BnGXLe6Rybk",
-      "description": "In this lesson, we will learn more about lower level details of concurrency mechanisms that power Monix Task. The lesson covers thread pools and how tasks are scheduled to execute."
+      "description": "In this lesson we will learn more about lower level details of the concurrency mechanisms that power Monix Task. The lesson covers thread pools, and how tasks are scheduled to execute."
     },
     {
       "id": "resourcesafety",
