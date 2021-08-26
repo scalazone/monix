@@ -53,7 +53,7 @@ If we'd like to create a `Task` that signals an error, we could use `Task.raiseE
 ```scala 
 import monix.eval.Task
 
-val error = Task.raiseError(RuntimeException("Something went wrong"))
+val error = Task.raiseError(new RuntimeException("Something went wrong"))
 ```
 
 `Task` will also catch any _non-fatal_ errors that are thrown and return them as a failed task.
